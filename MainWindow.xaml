@@ -55,15 +55,15 @@
             </StackPanel>
 
             <StackPanel x:Name="ToolPanel" Grid.Row="1" Orientation="Horizontal">
-                <Button x:Name="NewFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="{x:Null}" Click="NewFileButton_Click">
+                <Button x:Name="NewFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="NewFileButton_Click">
                     <Image Source="Resources/file-plus-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="OpenFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="OpenFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Open">
                     <Image Source="/Resources/folder-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="SaveFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="SaveFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Save">
                     <Image Source="/Resources/content-save-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
@@ -90,10 +90,16 @@
             <TabControl x:Name="InputTabControl" Grid.Row="2" Margin="0,0,0,0">
             </TabControl>
             <GridSplitter Grid.Row="3" Height="3" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="DarkGray"/>
-            <TabControl Grid.Row="4" Margin="0, -1, 0, 0">
+            <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0, -1, 0, 0">
                 <TabItem Header="Результаты работы">
                     <Grid>
-                        <TextBlock x:Name="OutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Text="TextBlock" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="OutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Text="Загрузка..." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Cообщения об ошибках">
+                    <Grid>
+                        <TextBlock x:Name="ErrorTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
 
                     </Grid>
                 </TabItem>

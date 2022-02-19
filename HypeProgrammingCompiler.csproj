@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\close-box-red.png" />
+    <None Remove="Resources\close-box.png" />
+    <None Remove="Resources\close.png" />
+    <None Remove="Resources\code-braces-box.png" />
+    <None Remove="Resources\code-braces.png" />
+    <None Remove="Resources\content-save-outline.png" />
+    <None Remove="Resources\file-plus-outline.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>4</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.1.3.50" />
+    <PackageReference Include="FCTB" Version="2.16.24" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\arrow-left.png" />
+    <Resource Include="Resources\arrow-right.png" />
+    <Resource Include="Resources\clipboard-text-multiple-outline.png" />
+    <Resource Include="Resources\close-box-red.png" />
+    <Resource Include="Resources\close-box.png" />
+    <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\code-braces-box.png" />
+    <Resource Include="Resources\code-braces.png" />
+    <Resource Include="Resources\content-copy.png" />
+    <Resource Include="Resources\content-cut.png" />
+    <Resource Include="Resources\content-save-outline.png" />
+    <Resource Include="Resources\content-save.png" />
+    <Resource Include="Resources\file-outline.png" />
+    <Resource Include="Resources\file-plus-outline.png" />
+    <Resource Include="Resources\folder-outline.png" />
+  </ItemGroup>
+
+  
+</Project>

@@ -1,0 +1,103 @@
+﻿<Window x:Class="HypeProgrammingCompiler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HypeProgrammingCompiler"
+        Title="HypeProgrammingCompilator" Height="450" Width="800" MinWidth="800" MinHeight="450" WindowStyle="SingleBorderWindow" ResizeMode="CanResize" Icon="/Resources/code-braces-box.png">
+
+    <Border Background="White">
+        <Grid Margin="0,-2,0,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="MenuPanel" Grid.Row="0" Orientation="Horizontal">
+
+                <Menu Height="30" VerticalAlignment="Center" Background="White" BorderThickness="0,0,0,0">
+                    <MenuItem Header="Файл" Margin="0,6,10,0" BorderThickness="0,0,0,0" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
+                        <MenuItem Header="Создать" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Сохранить как" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Выход" BorderThickness="0,0,0,0"/>
+                    </MenuItem>
+                    <MenuItem Header="Правка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
+                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0"/>
+                    </MenuItem>
+                    <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
+                        <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Грамматика" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Классификация грамматики" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Метод анализа" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Диагностика и нейтрализация ошибок" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Тестовый пример" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Список литературы" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Исходный код программы" BorderThickness="0,0,0,0"/>
+                    </MenuItem>
+                    <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0" Click="MenuItem_Click"/>
+                    <MenuItem Header="Справка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
+                        <MenuItem Header="Вызов справки" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="О программе" BorderThickness="0,0,0,0"/>
+                    </MenuItem>
+                </Menu>
+
+            </StackPanel>
+
+            <StackPanel x:Name="ToolPanel" Grid.Row="1" Orientation="Horizontal">
+                <Button x:Name="NewFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="{x:Null}" Click="NewFileButton_Click">
+                    <Image Source="Resources/file-plus-outline.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="OpenFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/folder-outline.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="SaveFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/content-save-outline.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="CancelButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/arrow-left.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="RepeatButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="Resources/arrow-right.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="CopyButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/content-copy.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="CutButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/content-cut.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
+                <Button x:Name="PasteButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <Image Source="/Resources/clipboard-text-multiple-outline.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+            </StackPanel>
+            <TabControl x:Name="InputTabControl" Grid.Row="2" Margin="0,0,0,0">
+            </TabControl>
+            <GridSplitter Grid.Row="3" Height="3" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="DarkGray"/>
+            <TabControl Grid.Row="4" Margin="0, -1, 0, 0">
+                <TabItem Header="Результаты работы">
+                    <Grid>
+                        <TextBlock x:Name="OutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Text="TextBlock" TextWrapping="Wrap"/>
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
+</Window>

@@ -36,12 +36,7 @@ namespace HypeProgrammingCompiler
             InitializeComponent();
             AddPage();
         }
-
-        private void Drag(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
+               
         private void AddPage()
         {
             //Добавление иконки для конпки закрытия вкладки
@@ -66,6 +61,8 @@ namespace HypeProgrammingCompiler
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
+            fastColoredTextBox.AllowDrop = true;
+            fastColoredTextBox.DragDrop += FastColoredTextBox_DragDrop;
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
             windowsFormsHost.Child = fastColoredTextBox;
 
@@ -88,6 +85,7 @@ namespace HypeProgrammingCompiler
             isExist.Add(false);
             filePath.Add("");
         }
+
 
         private void CloseDocumentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -118,6 +116,12 @@ namespace HypeProgrammingCompiler
                         isExist.RemoveAt(tabIndexToClose);
                         filePath.RemoveAt(tabIndexToClose);
                         break;
+
+                    case MessageBoxResult.Yes:
+                        Save(sender, e);
+                        break;
+
+
 
                 }
                 
@@ -158,13 +162,13 @@ namespace HypeProgrammingCompiler
                     StackPanel stackPanel = tabItem.Header as StackPanel;
                     (stackPanel.Children[0] as TextBlock).Text = (stackPanel.Children[0] as TextBlock).Text.Trim('*');
                 }
-                catch (ArgumentException exp) { ErrorPrint("Данный путь недопустим или содержит недопустимые символы"); }
-                catch (PathTooLongException exp) { ErrorPrint("Путь или имя файла превышают допустимую длину"); }
-                catch (DirectoryNotFoundException exp) { ErrorPrint("Указан недопустимый путь (например, он ведет на несопоставленный диск)"); }
-                catch (IOException exp) { ErrorPrint("При открытии файла произошла ошибка ввода-вывода"); }
-                catch (UnauthorizedAccessException exp) { ErrorPrint(""); }
-                catch (NotSupportedException exp) { ErrorPrint("Неверный формат файла"); }
-                catch (SecurityException exp) { ErrorPrint("Неверный формат файла"); }
+                catch (ArgumentException exception) { ErrorPrint("Данный путь недопустим или содержит недопустимые символы"); }
+                catch (PathTooLongException exception) { ErrorPrint("Путь или имя файла превышают допустимую длину"); }
+                catch (DirectoryNotFoundException exception) { ErrorPrint("Указан недопустимый путь (например, он ведет на несопоставленный диск)"); }
+                catch (IOException exception) { ErrorPrint("При открытии файла произошла ошибка ввода-вывода"); }
+                catch (UnauthorizedAccessException exception) { ErrorPrint(""); }
+                catch (NotSupportedException exception) { ErrorPrint("Неверный формат файла"); }
+                catch (SecurityException exception) { ErrorPrint("Неверный формат файла"); }
             }
             else //Иначе - сохраняем как...
             {
@@ -198,6 +202,37 @@ namespace HypeProgrammingCompiler
 
         }
 
+
+        private void OpenFile(string fileName, string safeFileName)
+        {
+            foreach (string f in filePath)
+            {
+                if (f == fileName)
+                {
+                    throw new IOException();
+                }
+            }
+
+            //Лучше отказаться
+            //if (InputTabControl.Items.Count < 2 && !isExist[0] && isSaved[0])
+            //{
+            //    InputTabControl.Items.Clear();
+            //}
+
+            AddPage();
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Text = File.ReadAllText(fileName);
+
+            StackPanel stackPanel = tabItem.Header as StackPanel;
+            (stackPanel.Children[0] as TextBlock).Text = safeFileName;
+
+            isSaved[InputTabControl.SelectedIndex] = true;
+            isExist[InputTabControl.SelectedIndex] = true;
+            filePath[InputTabControl.SelectedIndex] = fileName;
+        }
+
         private void Open(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -206,36 +241,12 @@ namespace HypeProgrammingCompiler
             {
                 try
                 {
-                    foreach (string f in filePath)
-                    {
-                        if (f == openFileDialog.FileName)
-                        {
-                            throw new IOException();
-                        }
-                    }
-
-                    if (InputTabControl.Items.Count < 2 && !isExist[0])
-                    {
-                        InputTabControl.Items.Clear();
-                    }
-
-                    AddPage();
-                    TabItem tabItem = InputTabControl.SelectedItem as TabItem;
-                    WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
-                    FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
-                    fastColoredTextBox.Text = File.ReadAllText(openFileDialog.FileName);
-
-                    StackPanel stackPanel = tabItem.Header as StackPanel;
-                    (stackPanel.Children[0] as TextBlock).Text = openFileDialog.SafeFileName;
-
-                    isSaved[InputTabControl.SelectedIndex] = true;
-                    isExist[InputTabControl.SelectedIndex] = true;
-                    filePath[InputTabControl.SelectedIndex] = openFileDialog.FileName;
+                    OpenFile(openFileDialog.FileName, openFileDialog.SafeFileName);
                 }
-                catch (FileFormatException exc) { ErrorPrint("Неверный формат файла"); }
-                catch (FileLoadException exc) { ErrorPrint("Файл не может быть загружен"); }
-                catch (FileNotFoundException exc) { ErrorPrint("Файл не найден"); }
-                catch (IOException exc) { ErrorPrint(String.Format("Файл {0} уже загружен", openFileDialog.SafeFileName)); }
+                catch (FileFormatException exception) { ErrorPrint("Неверный формат файла"); }
+                catch (FileLoadException exception) { ErrorPrint("Файл не может быть загружен"); }
+                catch (FileNotFoundException exception) { ErrorPrint("Файл не найден"); }
+                catch (IOException exception) { ErrorPrint(String.Format("Файл {0} уже загружен", openFileDialog.SafeFileName)); }
             }
         }
 
@@ -243,6 +254,21 @@ namespace HypeProgrammingCompiler
         {
             ErrorTextBlock.Text = message;
             (OutputTabControl.Items[1] as TabItem).IsSelected = true;
+        }
+
+        private void FastColoredTextBox_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+
+                string[] dropFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (var fileName in dropFiles)
+                {
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    if ((fileInfo.Extension == ".txt") || (fileInfo.Extension == ".mupl"))
+                        OpenFile(fileName, System.IO.Path.GetFileName(fileName));
+                }
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

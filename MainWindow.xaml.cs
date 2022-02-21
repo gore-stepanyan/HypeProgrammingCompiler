@@ -271,6 +271,66 @@ namespace HypeProgrammingCompiler
             }
         }
 
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Undo(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Undo();
+        }
+
+        private void Redo(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Redo();
+        }
+
+        private void Cut(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Cut();
+        }
+
+        private void Copy(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Copy();
+        }
+        private void Insert(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.InsertText(Clipboard.GetText());
+        }
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.ClearSelected();
+        }
+
+        private void SelectAll(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.SelectAll();
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             

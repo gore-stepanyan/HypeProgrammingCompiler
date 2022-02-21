@@ -20,20 +20,20 @@
 
                 <Menu Height="30" VerticalAlignment="Center" Background="White" BorderThickness="0,0,0,0">
                     <MenuItem Header="Файл" Margin="0,6,10,0" BorderThickness="0,0,0,0" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
-                        <MenuItem Header="Создать" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Сохранить как" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Выход" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Создать" BorderThickness="0,0,0,0" Click="NewFileButton_Click"/>
+                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0" Click="Open"/>
+                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save"/>
+                        <MenuItem Header="Сохранить как" BorderThickness="0,0,0,0" Click="SaveAs"/>
+                        <MenuItem Header="Выход" BorderThickness="0,0,0,0" Click="Close"/>
                     </MenuItem>
                     <MenuItem Header="Правка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0" Click="Undo"/>
+                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0" Click="Redo"/>
+                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0" Click="Cut"/>
+                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy"/>
+                        <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert"/>
+                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete"/>
+                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll"/>
                     </MenuItem>
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>
@@ -93,7 +93,11 @@
             <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0, -1, 0, 0">
                 <TabItem Header="Результаты работы">
                     <Grid>
-                        <TextBlock x:Name="OutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" Text="Загрузка..." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="116*"/>
+                            <ColumnDefinition Width="281*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="OutputTextBlock" Text="Загрузка..." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" Grid.ColumnSpan="2"/>
 
                     </Grid>
                 </TabItem>

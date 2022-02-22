@@ -61,8 +61,6 @@ namespace HypeProgrammingCompiler
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
-            fastColoredTextBox.AllowDrop = true;
-            fastColoredTextBox.DragDrop += FastColoredTextBox_DragDrop;
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
             windowsFormsHost.Child = fastColoredTextBox;
 
@@ -85,7 +83,6 @@ namespace HypeProgrammingCompiler
             isExist.Add(false);
             filePath.Add("");
         }
-
 
         private void CloseDocumentButton_Click(object sender, RoutedEventArgs e)
         {

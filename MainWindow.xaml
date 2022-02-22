@@ -33,7 +33,7 @@
                         <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy"/>
                         <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert"/>
                         <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete"/>
-                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll"/>
+                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll" InputGestureText="Ctrl + A"/>
                     </MenuItem>
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>

@@ -71,7 +71,6 @@ namespace HypeProgrammingCompiler
             //Область ввода текста
             FastColoredTextBox fastColoredTextBox = new FastColoredTextBox();
             fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
@@ -344,9 +343,10 @@ namespace HypeProgrammingCompiler
             fastColoredTextBox.SelectAll();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void ShowInfo(object sender, RoutedEventArgs e)
         {
-            
+            MessageBox.Show("HypeProgrammingCompiler\n\n(с) 2022 HPS Андрей Мазуров АВТ-912 АВТФ\ngithub.com/gore-stepanyan/HypeProgrammingCompiler", "О программе", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -12,10 +12,15 @@
     <None Remove="Resources\close-box-red.png" />
     <None Remove="Resources\close-box.png" />
     <None Remove="Resources\close.png" />
+    <None Remove="Resources\code-braces-box%281%29.png" />
     <None Remove="Resources\code-braces-box.png" />
     <None Remove="Resources\code-braces.png" />
     <None Remove="Resources\content-save-outline.png" />
     <None Remove="Resources\file-plus-outline.png" />
+    <None Remove="Resources\information.png" />
+    <None Remove="Resources\magnify-plus.png" />
+    <None Remove="Resources\select-all.png" />
+    <None Remove="Resources\trash-can-outline.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +44,7 @@
     <Resource Include="Resources\close-box-red.png" />
     <Resource Include="Resources\close-box.png" />
     <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\code-braces-box(1).png" />
     <Resource Include="Resources\code-braces-box.png" />
     <Resource Include="Resources\code-braces.png" />
     <Resource Include="Resources\content-copy.png" />
@@ -48,6 +54,10 @@
     <Resource Include="Resources\file-outline.png" />
     <Resource Include="Resources\file-plus-outline.png" />
     <Resource Include="Resources\folder-outline.png" />
+    <Resource Include="Resources\information.png" />
+    <Resource Include="Resources\magnify-plus.png" />
+    <Resource Include="Resources\select-all.png" />
+    <Resource Include="Resources\trash-can-outline.png" />
   </ItemGroup>
 
   

@@ -4,37 +4,105 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HypeProgrammingCompiler"
-        Title="HypeProgrammingCompilator" Height="450" Width="800" MinWidth="800" MinHeight="450" WindowStyle="SingleBorderWindow" ResizeMode="CanResize" Icon="/Resources/code-braces-box.png" Closing="OnClosing">
+        Title="HypeProgrammingCompiler" Height="450" Width="800" MinWidth="800" MinHeight="450" WindowStyle="SingleBorderWindow" ResizeMode="CanResize" Icon="/Resources/code-braces-box.png" Closing="OnClosing">
 
     <Border Background="White">
-        <Grid Margin="0,-2,0,15">
+        <Grid Margin="0,-2,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="34"/>
                 <RowDefinition Height="9*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3"/>
                 <RowDefinition Height="9*"/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
 
-            <StackPanel x:Name="MenuPanel" Grid.Row="0" Orientation="Horizontal">
+            <StackPanel x:Name="MenuPanel" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
 
                 <Menu Height="30" VerticalAlignment="Center" Background="White" BorderThickness="0,0,0,0">
                     <MenuItem Header="Файл" Margin="0,6,10,0" BorderThickness="0,0,0,0" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
-                        <MenuItem Header="Создать" BorderThickness="0,0,0,0" Click="NewFileButton_Click" InputGestureText="Ctrl+N"/>
-                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0" Click="Open" InputGestureText="Ctrl+O"/>
-                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save" InputGestureText="Ctrl+S"/>
-                        <MenuItem Header="Сохранить как" BorderThickness="0,0,0,0" Click="SaveAs"/>
-                        <MenuItem Header="Выход" BorderThickness="0,0,0,0" Click="Close"/>
+                        <MenuItem Header="Создать" BorderThickness="0,0,0,0" Click="NewFileButton_Click" InputGestureText="Ctrl+N">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/file-outline.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>   
+                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0" Click="Open" InputGestureText="Ctrl+O">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/folder-outline.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save" InputGestureText="Ctrl+S">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/content-save-outline.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Сохранить как..." BorderThickness="0,0,0,0" Click="SaveAs"/>
+                        <MenuItem Header="Выход" BorderThickness="0,0,0,0" Click="Close" InputGestureText="Alt+F4"/>
                     </MenuItem>
                     <MenuItem Header="Правка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0" Click="Undo" InputGestureText="Ctrl+Z"/>
-                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0" Click="Redo" InputGestureText="Ctrl+R"/>
-                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0" Click="Cut" InputGestureText="Ctrl+X"/>
-                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy" InputGestureText="Ctrl+C"/>
-                        <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert" InputGestureText="Ctrl+V"/>
-                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete" InputGestureText="Del"/>
-                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll" InputGestureText="Ctrl+A"/>
+                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0" Click="Undo" InputGestureText="Ctrl+Z">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/arrow-left.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0" Click="Redo" InputGestureText="Ctrl+R">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/arrow-right.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0" Click="Cut" InputGestureText="Ctrl+X">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/content-cut.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy" InputGestureText="Ctrl+C">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/content-copy.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert" InputGestureText="Ctrl+V">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/clipboard-text-multiple-outline.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete" InputGestureText="Del">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/trash-can-outline.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        
+                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll" InputGestureText="Ctrl+A">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/select-all.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
+
+                    <MenuItem Header="Вид" Margin="0,6,10,0" BorderThickness="0,0,0,0">
+                        <MenuItem Header="Масштаб" BorderThickness="0,0,0,0">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/magnify-plus.png"/>
+                            </MenuItem.Icon>
+                            
+                            <MenuItem Header="100%" BorderThickness="0,0,0,0" IsChecked="True"/>
+                        </MenuItem>
+                        <MenuItem Header="Подсветка синтаксиса" BorderThickness="0,0,0,0">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/code-braces-box.png"/>
+                            </MenuItem.Icon>
+                            
+                            <MenuItem Header="HPL" BorderThickness="0,0,0,0" IsChecked="True"/>
+                            <MenuItem Header="C#" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="JavaScript" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="HTML" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="Lua" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="PHP" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="SQL" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="VB" BorderThickness="0,0,0,0"/>
+                            <MenuItem Header="XML" BorderThickness="0,0,0,0"/>
+                        </MenuItem>
+                    </MenuItem>
+
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>
                         <MenuItem Header="Грамматика" BorderThickness="0,0,0,0"/>
@@ -45,10 +113,15 @@
                         <MenuItem Header="Список литературы" BorderThickness="0,0,0,0"/>
                         <MenuItem Header="Исходный код программы" BorderThickness="0,0,0,0"/>
                     </MenuItem>
-                    <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0" Click="MenuItem_Click"/>
+                    <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0"/>
                     <MenuItem Header="Справка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Вызов справки" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="О программе" BorderThickness="0,0,0,0"/>
+                        
+                        <MenuItem Header="О программе" BorderThickness="0,0,0,0" Click="ShowInfo">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/information.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </Menu>
 
@@ -56,7 +129,7 @@
 
             <StackPanel x:Name="ToolPanel" Grid.Row="1" Orientation="Horizontal">
                 <Button x:Name="NewFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="NewFileButton_Click">
-                    <Image Source="Resources/file-plus-outline.png" Stretch="None" OpacityMask="#F2000000"/>
+                    <Image Source="Resources/file-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
                 <Button x:Name="OpenFileButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Open">
@@ -87,10 +160,9 @@
                     <Image Source="/Resources/clipboard-text-multiple-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
             </StackPanel>
-            <TabControl x:Name="InputTabControl" Grid.Row="2" Margin="0,0,0,0">
-            </TabControl>
-            <GridSplitter Grid.Row="3" Height="3" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="DarkGray"/>
-            <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0, -1, 0, 0">
+            <TabControl x:Name="InputTabControl" Grid.Row="2"/>
+            <GridSplitter Grid.Row="3" Height="3" HorizontalAlignment="Stretch" Background="DarkGray"/>
+            <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0,2,0,0" Grid.RowSpan="2">
                 <TabItem Header="Результаты работы">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -104,7 +176,6 @@
                 <TabItem Header="Cообщения об ошибках">
                     <Grid>
                         <TextBlock x:Name="ErrorTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
-
                     </Grid>
                 </TabItem>
             </TabControl>

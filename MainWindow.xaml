@@ -20,20 +20,20 @@
 
                 <Menu Height="30" VerticalAlignment="Center" Background="White" BorderThickness="0,0,0,0">
                     <MenuItem Header="Файл" Margin="0,6,10,0" BorderThickness="0,0,0,0" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}">
-                        <MenuItem Header="Создать" BorderThickness="0,0,0,0" Click="NewFileButton_Click"/>
-                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0" Click="Open"/>
-                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save"/>
+                        <MenuItem Header="Создать" BorderThickness="0,0,0,0" Click="NewFileButton_Click" InputGestureText="Ctrl+N"/>
+                        <MenuItem Header="Открыть" BorderThickness="0,0,0,0" Click="Open" InputGestureText="Ctrl+O"/>
+                        <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save" InputGestureText="Ctrl+S"/>
                         <MenuItem Header="Сохранить как" BorderThickness="0,0,0,0" Click="SaveAs"/>
                         <MenuItem Header="Выход" BorderThickness="0,0,0,0" Click="Close"/>
                     </MenuItem>
                     <MenuItem Header="Правка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0" Click="Undo"/>
-                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0" Click="Redo"/>
-                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0" Click="Cut"/>
-                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy"/>
-                        <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert"/>
-                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete"/>
-                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll" InputGestureText="Ctrl + A"/>
+                        <MenuItem Header="Отменить" BorderThickness="0,0,0,0" Click="Undo" InputGestureText="Ctrl+Z"/>
+                        <MenuItem Header="Повторить" BorderThickness="0,0,0,0" Click="Redo" InputGestureText="Ctrl+R"/>
+                        <MenuItem Header="Вырезать" BorderThickness="0,0,0,0" Click="Cut" InputGestureText="Ctrl+X"/>
+                        <MenuItem Header="Копировать" BorderThickness="0,0,0,0" Click="Copy" InputGestureText="Ctrl+C"/>
+                        <MenuItem Header="Вставить" BorderThickness="0,0,0,0" Click="Insert" InputGestureText="Ctrl+V"/>
+                        <MenuItem Header="Удалить" BorderThickness="0,0,0,0" Click="Delete" InputGestureText="Del"/>
+                        <MenuItem Header="Выделить всё" BorderThickness="0,0,0,0" Click="SelectAll" InputGestureText="Ctrl+A"/>
                     </MenuItem>
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>
@@ -67,23 +67,23 @@
                     <Image Source="/Resources/content-save-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="CancelButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="CancelButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Undo">
                     <Image Source="/Resources/arrow-left.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="RepeatButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="RepeatButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Redo">
                     <Image Source="Resources/arrow-right.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="CopyButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="CopyButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Copy">
                     <Image Source="/Resources/content-copy.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="CutButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="CutButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Cut">
                     <Image Source="/Resources/content-cut.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
 
-                <Button x:Name="PasteButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <Button x:Name="PasteButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Insert">
                     <Image Source="/Resources/clipboard-text-multiple-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
             </StackPanel>

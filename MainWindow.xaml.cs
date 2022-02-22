@@ -16,8 +16,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FastColoredTextBoxNS;
 using System.Windows.Forms.Integration;
-using System.Reflection;
-using ICSharpCode.AvalonEdit;
 using System.IO;
 
 
@@ -34,10 +32,26 @@ namespace HypeProgrammingCompiler
         public MainWindow()
         {
             InitializeComponent();
-            AddPage();
+            AddKeys();
+            AddPage(null, null);
         }
-               
-        private void AddPage()
+
+        private void AddKeys()
+        {
+            RoutedCommand openCommand = new RoutedCommand();
+            openCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(openCommand, Open));
+
+            RoutedCommand addCommand = new RoutedCommand();
+            addCommand.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(addCommand, AddPage));
+
+            RoutedCommand saveCommand = new RoutedCommand();
+            saveCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(saveCommand, Save));
+        }
+
+        private void AddPage(object sender, RoutedEventArgs e)
         {
             //Добавление иконки для конпки закрытия вкладки
             Image image = new Image();
@@ -140,7 +154,7 @@ namespace HypeProgrammingCompiler
 
         private void NewFileButton_Click(object sender, RoutedEventArgs e)
         {
-            AddPage();
+            AddPage(null, null);
         }
 
         private void Save(object sender, RoutedEventArgs e)
@@ -216,7 +230,7 @@ namespace HypeProgrammingCompiler
             //    InputTabControl.Items.Clear();
             //}
 
-            AddPage();
+            AddPage(null, null);
             TabItem tabItem = InputTabControl.SelectedItem as TabItem;
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
@@ -252,6 +266,7 @@ namespace HypeProgrammingCompiler
             ErrorTextBlock.Text = message;
             (OutputTabControl.Items[1] as TabItem).IsSelected = true;
         }
+
 
         private void FastColoredTextBox_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
@@ -304,6 +319,7 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
             fastColoredTextBox.Copy();
         }
+
         private void Insert(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = InputTabControl.SelectedItem as TabItem;

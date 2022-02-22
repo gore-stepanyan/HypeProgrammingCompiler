@@ -335,5 +335,22 @@ namespace HypeProgrammingCompiler
         {
             
         }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            foreach (TabItem tabItem in InputTabControl.Items)
+            {
+                if (!isSaved[InputTabControl.SelectedIndex])
+                {
+                    tabItem.IsSelected = true;
+                    MessageBoxResult messageBoxResult = MessageBox.Show("В документе были сделаны изменения. Сохранить их?", "Внимание", MessageBoxButton.YesNoCancel, MessageBoxImage.Information);
+                    switch (messageBoxResult)
+                    {
+                        case MessageBoxResult.Yes: { Save(null, null); break; }
+                        case MessageBoxResult.Cancel: { e.Cancel = true; return; }
+                    }
+                }
+            }
+        }
     }
 }

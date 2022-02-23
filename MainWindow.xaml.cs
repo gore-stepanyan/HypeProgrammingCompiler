@@ -23,10 +23,9 @@ namespace HypeProgrammingCompiler
 {
     public partial class MainWindow : Window
     {
-        // Флаг, указывающий является ли документ сохранённым
-        List<bool> isSaved = new List<bool>();
-        List<bool> isExist = new List<bool>();
-        List<string> filePath = new List<string>();
+        List<bool> isSaved = new List<bool>(); //Флаги сохранений
+        List<bool> isExist = new List<bool>(); //Флаги существований в файловой системе
+        List<string> filePath = new List<string>(); //Полные имена в файловой системе
         
 
         public MainWindow()
@@ -36,6 +35,7 @@ namespace HypeProgrammingCompiler
             AddPage(null, null);
         }
 
+        // Горячие калвиши
         private void AddKeys()
         {
             RoutedCommand openCommand = new RoutedCommand();
@@ -130,16 +130,12 @@ namespace HypeProgrammingCompiler
                     case MessageBoxResult.Yes:
                         Save(sender, e);
                         break;
-
-
-
                 }
                 
             }
-
-
         }
 
+        // Звёздочки
         private void FastColoredTextBox_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
         {
             if (isSaved[InputTabControl.SelectedIndex])
@@ -209,7 +205,6 @@ namespace HypeProgrammingCompiler
                 isExist[InputTabControl.SelectedIndex] = true;
                 filePath[InputTabControl.SelectedIndex] = saveFileDialog.FileName;
             }
-
         }
 
 
@@ -264,22 +259,6 @@ namespace HypeProgrammingCompiler
         {
             ErrorTextBlock.Text = message;
             (OutputTabControl.Items[1] as TabItem).IsSelected = true;
-        }
-
-
-        private void FastColoredTextBox_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-
-                string[] dropFiles = (string[])e.Data.GetData(DataFormats.FileDrop);
-                foreach (var fileName in dropFiles)
-                {
-                    FileInfo fileInfo = new FileInfo(fileName);
-                    if ((fileInfo.Extension == ".txt") || (fileInfo.Extension == ".mupl"))
-                        OpenFile(fileName, System.IO.Path.GetFileName(fileName));
-                }
-            }
         }
 
         private void Close(object sender, RoutedEventArgs e)
@@ -363,6 +342,44 @@ namespace HypeProgrammingCompiler
                         case MessageBoxResult.Cancel: { e.Cancel = true; return; }
                     }
                 }
+            }
+        }
+
+        private void ZoomIn(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Zoom += 25;
+        }
+
+        private void ZoomOut(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+            fastColoredTextBox.Zoom -= 25;
+        }
+
+        // не работает
+        private void ChangeHighlight(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+
+            MenuItem menuItem = sender as MenuItem;
+
+            switch (menuItem.Header.ToString())
+            {
+                case "HPL": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.Custom; menuItem.IsChecked = true; break; }
+                case "C#": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp; menuItem.IsChecked = true; break; }
+                case "JavaScript": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.JS; menuItem.IsChecked = true; break; }
+                case "HTML": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.HTML; menuItem.IsChecked = true; break; }
+                case "PHP": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.PHP; menuItem.IsChecked = true; break; }
+                case "SQL": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.SQL; menuItem.IsChecked = true; break; }
+                case "VB": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.VB; menuItem.IsChecked = true; break; }
+                case "XML": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.XML; menuItem.IsChecked = true; break; }
             }
         }
     }

@@ -18,7 +18,7 @@ using FastColoredTextBoxNS;
 using System.Windows.Forms.Integration;
 using System.IO;
 using System.Diagnostics;
-
+using System.Net;
 
 namespace HypeProgrammingCompiler
 {
@@ -386,6 +386,7 @@ namespace HypeProgrammingCompiler
 
         private void ShowManual(object sender, RoutedEventArgs e)
         {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/manual/manual.pdf"));
         }
     }
 }

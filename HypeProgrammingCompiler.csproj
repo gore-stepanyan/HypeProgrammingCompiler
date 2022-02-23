@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="manual\**" />
+    <EmbeddedResource Remove="manual\**" />
+    <None Remove="manual\**" />
+    <Page Remove="manual\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\close-box-red.png" />
     <None Remove="Resources\close-box.png" />
     <None Remove="Resources\close.png" />

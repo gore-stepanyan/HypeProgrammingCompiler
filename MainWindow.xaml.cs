@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using FastColoredTextBoxNS;
 using System.Windows.Forms.Integration;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace HypeProgrammingCompiler
@@ -381,6 +382,10 @@ namespace HypeProgrammingCompiler
                 case "VB": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.VB; menuItem.IsChecked = true; break; }
                 case "XML": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.XML; menuItem.IsChecked = true; break; }
             }
+        }
+
+        private void ShowManual(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

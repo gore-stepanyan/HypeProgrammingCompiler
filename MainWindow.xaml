@@ -116,7 +116,7 @@
                     </MenuItem>
                     <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0"/>
                     <MenuItem Header="Справка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Вызов справки" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Вызов справки" BorderThickness="0,0,0,0" Click="ShowManual"/>
                         
                         <MenuItem Header="О программе" BorderThickness="0,0,0,0" Click="ShowInfo">
                             <MenuItem.Icon>

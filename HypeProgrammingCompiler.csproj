@@ -27,6 +27,7 @@
     <None Remove="Resources\information.png" />
     <None Remove="Resources\magnify-plus.png" />
     <None Remove="Resources\select-all.png" />
+    <None Remove="Resources\tab-remove.png" />
     <None Remove="Resources\trash-can-outline.png" />
   </ItemGroup>
 
@@ -64,6 +65,7 @@
     <Resource Include="Resources\information.png" />
     <Resource Include="Resources\magnify-plus.png" />
     <Resource Include="Resources\select-all.png" />
+    <Resource Include="Resources\tab-remove.png" />
     <Resource Include="Resources\trash-can-outline.png" />
   </ItemGroup>
 

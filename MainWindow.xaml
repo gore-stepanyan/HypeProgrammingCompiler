@@ -31,6 +31,11 @@
                                 <Image Source="/Resources/folder-outline.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Header="Закрыть вкладку" BorderThickness="0,0,0,0" Click="RemoveTab" >
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/tab-remove.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="Сохранить" BorderThickness="0,0,0,0" Click="Save" InputGestureText="Ctrl+S">
                             <MenuItem.Icon>
                                 <Image Source="/Resources/content-save-outline.png"/>

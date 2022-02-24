@@ -103,15 +103,15 @@ namespace HypeProgrammingCompiler
             //Получение вкладки которую необходимо закрыть
             Button button = sender as Button;
             StackPanel stackPanel = button.Parent as StackPanel;
-            TabItem tabIntem = stackPanel.Parent as TabItem;
+            TabItem tabItem = stackPanel.Parent as TabItem;
 
             //Получаем индекс вкладки которую необходимо закрыть
-            int tabIndexToClose = InputTabControl.Items.IndexOf(tabIntem);
+            int tabIndexToClose = InputTabControl.Items.IndexOf(tabItem);
 
             //Если изменения сохранены
             if (isSaved[tabIndexToClose])
             {
-                InputTabControl.Items.Remove(tabIntem); //Закрыть
+                InputTabControl.Items.Remove(tabItem); //Закрыть
                 isSaved.RemoveAt(tabIndexToClose); //Перестать отслеживать изменения
                 isExist.RemoveAt(tabIndexToClose);
                 filePath.RemoveAt(tabIndexToClose);
@@ -122,7 +122,7 @@ namespace HypeProgrammingCompiler
                 switch (messageBoxResult)
                 {
                     case MessageBoxResult.No:
-                        InputTabControl.Items.Remove(tabIntem); //Закрыть
+                        InputTabControl.Items.Remove(tabItem); //Закрыть
                         isSaved.RemoveAt(tabIndexToClose); //Перестать отслеживать изменения
                         isExist.RemoveAt(tabIndexToClose);
                         filePath.RemoveAt(tabIndexToClose);
@@ -260,6 +260,43 @@ namespace HypeProgrammingCompiler
         {
             ErrorTextBlock.Text = message;
             (OutputTabControl.Items[1] as TabItem).IsSelected = true;
+        }
+
+        private void RemoveTab(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+
+            //Получаем индекс вкладки которую необходимо закрыть
+            int tabIndexToClose = InputTabControl.Items.IndexOf(tabItem);
+
+            //Если изменения сохранены
+            if (isSaved[tabIndexToClose])
+            {
+                InputTabControl.Items.Remove(tabItem); //Закрыть
+                isSaved.RemoveAt(tabIndexToClose); //Перестать отслеживать изменения
+                isExist.RemoveAt(tabIndexToClose);
+                filePath.RemoveAt(tabIndexToClose);
+            }
+            else
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("В документе были сделаны изменения. Сохранить их?", "Внимание", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                switch (messageBoxResult)
+                {
+                    case MessageBoxResult.No:
+                        InputTabControl.Items.Remove(tabItem); //Закрыть
+                        isSaved.RemoveAt(tabIndexToClose); //Перестать отслеживать изменения
+                        isExist.RemoveAt(tabIndexToClose);
+                        filePath.RemoveAt(tabIndexToClose);
+                        break;
+
+                    case MessageBoxResult.Yes:
+                        Save(sender, e);
+                        break;
+                }
+
+            }
         }
 
         private void Close(object sender, RoutedEventArgs e)

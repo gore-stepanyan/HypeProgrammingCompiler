@@ -22,7 +22,7 @@
   </trustInfo>
 
   <!-- Activate Windows Common Controls v6 usage (XP and Vista): -->
-  <dependency>
+  <!--<dependency>
     <dependentAssembly>
       <assemblyIdentity
         type="win32"
@@ -32,7 +32,7 @@
         publicKeyToken="6595b64144ccf1df"
         language="*"/>
     </dependentAssembly>
-  </dependency>
+  </dependency>-->
 
 
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

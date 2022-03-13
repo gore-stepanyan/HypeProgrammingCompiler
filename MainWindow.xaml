@@ -119,7 +119,7 @@
                         <MenuItem Header="Список литературы" BorderThickness="0,0,0,0"/>
                         <MenuItem Header="Исходный код программы" BorderThickness="0,0,0,0"/>
                     </MenuItem>
-                    <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0"/>
+                    <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0" Click="Run"/>
                     <MenuItem Header="Справка" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Вызов справки" BorderThickness="0,0,0,0" Click="ShowManual"/>
                         

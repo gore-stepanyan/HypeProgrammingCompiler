@@ -8,26 +8,26 @@ namespace HypeProgrammingCompiler
 {
     class Scanner
     {
-        public List<(int codeNumber, string codeIdentifier, string codeSymbol, int startPosition, int endPosition)> decomposedText = new List<(int codeNumber, string codeIdentifier, string codeSymbol, int startPosition, int endPosition)>();
+        public List<(Lexem lexem, string codeSymbol, int startPosition, int endPosition)> decomposedText = new List<(Lexem lexem, string codeSymbol, int startPosition, int endPosition)>();
         private string text;
         
-        public Scanner(string text) { this.text = text; }
+        public Scanner(string text) { this.text = text.Trim('\n', '\r', '\0'); }
 
-        private enum Lexems
+        public enum Lexem
         {
             Identifier = 0,
             AssignOperator = 1,
-            Separator = 2,
+            Space = 2,
             Integer = 3,
             Float = 4,
             PlusOperator = 5,
             MinusOperator = 6,
-            MultOperator = 7,
-            DvideOperator = 8,
-            DoubleSlashOperator = 9,
-            PercentOperator = 10,
-            DoubleStarOperator = 11,
-            Error = -1
+            MultiplicationOperator = 7,
+            DivisionOperator = 8,
+            FloorDivisionOperator = 9,
+            ModulusOperator = 10,
+            ExponentiationOperator = 11,
+            Invalid = -1
         }
 
         public string Print()
@@ -36,11 +36,11 @@ namespace HypeProgrammingCompiler
 
             foreach (var decomposition in decomposedText)
             {
-                result += decomposition.codeNumber.ToString() + " - ";
-                result += decomposition.codeIdentifier.ToString() + " - ";
+                result += (int)decomposition.lexem + " - ";
+                result += decomposition.lexem + " - ";
                 result += decomposition.codeSymbol + " - ";
-                result += decomposition.startPosition.ToString() + " - ";
-                result += decomposition.endPosition.ToString() + ";\n";
+                result += decomposition.startPosition + " - ";
+                result += decomposition.endPosition + ";\n";
             }
             
             return result;
@@ -54,19 +54,68 @@ namespace HypeProgrammingCompiler
                 if (char.IsLetter(text[i]))
                 {
                     MatchIdentifier();
+                    if (text.Length <= i)
+                        break;
                 }
+                else if (text[i] == '=')
+                {
+                    MatchAssignOperator();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (text[i] == ' ')
+                {
+                    MatchSpaceSymbol();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (char.IsDigit(text[i]))
+                {
+                    MatchDigitOrFloat();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (text[i] == '+')
+                {
+                    MatchPlusOperator();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (text[i] == '-')
+                {
+                    MatchMinusOperator();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (text[i] == '*')
+                {
+                    MatchMultOrExpOperator();
+                    if (text.Length <= i)
+                        break;
+                }
+                else if (text[i] == '/')
+                {
+                    MatchDivisionOrFloorDivisionOperator();
+                    if (text.Length <= i)
+                        break;
+                }
+                else
+                {
+                    if (text[i] != '\n' && text[i] != '\r')
+                        MatchInvalid(i, text[i].ToString());
+                }
+
             }
         }
 
         private void MatchIdentifier()
         {
-            string identifier = "";
+            string codeSymbol = "";
             int startPosition = i + 1;
-            //identifier += text[i];
 
             while (char.IsLetterOrDigit(text[i]))
             {
-                identifier += text[i];
+                codeSymbol += text[i];
                 i++;
 
                 if (text.Length <= i)
@@ -74,7 +123,133 @@ namespace HypeProgrammingCompiler
             }
             int endPosition = i;
 
-            decomposedText.Add(((int)Lexems.Identifier, Lexems.Identifier.ToString(), identifier, startPosition, endPosition));
+            decomposedText.Add((Lexem.Identifier, codeSymbol, startPosition, endPosition));
+            i--;
+        }
+
+        private void MatchAssignOperator()
+        {
+            decomposedText.Add((Lexem.AssignOperator, "=", i + 1, i + 1));
+        }
+
+        private void MatchSpaceSymbol()
+        {
+            decomposedText.Add((Lexem.Space, "(space)", i + 1, i + 1));
+        }
+
+        private void MatchDigitOrFloat()
+        {
+            string codeSymbol = "";
+            int startPosition = i + 1;
+
+            while (char.IsDigit(text[i]))
+            {
+                codeSymbol += text[i];
+                i++;
+
+                if (text.Length <= i)
+                    break;
+
+                if (text[i] == '.')
+                {
+                    MatchFloat(startPosition, codeSymbol);
+                    return;
+                }
+
+            }
+            int endPosition = i;
+
+            decomposedText.Add((Lexem.Integer, codeSymbol, startPosition, endPosition));
+            i--;
+        }
+
+        private void MatchFloat(int startPosition, string codeSymbol)
+        {
+            if (text.Length == i + 1)
+            {
+                MatchInvalid(startPosition, codeSymbol += text[i]);
+                return;
+            }
+
+            if (!char.IsDigit(text[i + 1]))
+            {
+                MatchInvalid(startPosition, codeSymbol += text[i]);
+                //i--;
+                return;
+            }
+
+            do
+            {
+                codeSymbol += text[i];
+                i++;
+
+                if (text.Length <= i)
+                    break;
+
+            } while (char.IsDigit(text[i]));
+            int endPosition = i;
+
+            decomposedText.Add((Lexem.Float, codeSymbol, startPosition, endPosition));
+            i--;
+        }
+
+        private void MatchPlusOperator()
+        {
+            decomposedText.Add((Lexem.PlusOperator, "+", i + 1, i + 1));
+        }
+
+        private void MatchMinusOperator()
+        {
+            decomposedText.Add((Lexem.MinusOperator, "-", i + 1, i + 1));
+        }
+
+
+        private void MatchDivisionOrFloorDivisionOperator()
+        {
+            if (text.Length != i + 1)
+            {
+                if (text[i + 1] == '/')
+                {
+                    MatchFloorDivisionOperator();
+                    return;
+                }
+            }
+            decomposedText.Add((Lexem.DivisionOperator, "/", i + 1, i + 1));
+        }
+
+        private void MatchFloorDivisionOperator()
+        {
+            decomposedText.Add((Lexem.FloorDivisionOperator, "//", i + 1, i + 2));
+            i++;
+        }
+
+        private void MatchMultOrExpOperator()
+        {
+            if (text.Length != i + 1)
+            {
+                if (text[i + 1] == '*')
+                {
+                    MatchExponentiationOperator();
+                    return;
+                }
+            }
+            decomposedText.Add((Lexem.MultiplicationOperator, "*", i + 1, i + 1));
+        }
+
+        private void MatchExponentiationOperator()
+        {
+            decomposedText.Add((Lexem.ExponentiationOperator, "**", i + 1, i + 2));
+            i++;
+        }
+
+        private void MatchModulusOperator()
+        {
+            decomposedText.Add((Lexem.ModulusOperator, "%", i + 1, i + 1));
+        }
+
+        private void MatchInvalid(int startPosition, string codeSymbol)
+        {
+            decomposedText.Add((Lexem.Invalid, codeSymbol, startPosition, i + 2));
         }
 
     }

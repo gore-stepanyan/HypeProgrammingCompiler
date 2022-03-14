@@ -78,19 +78,19 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
             windowsFormsHost.Child = fastColoredTextBox;
 
-
             //TextEditor textEditor = new TextEditor();
             //textEditor.ShowLineNumbers = true;
             //textEditor.FontFamily = new FontFamily("Consolas");
             //textEditor.FontSize = 12;
 
             //Добавление новой вкладки
-            InputTabControl.Items.Add(new TabItem
+            TabItem tabItem = new TabItem()
             {
                 Header = stackPanel, //Заголовок
                 Content = windowsFormsHost, //Текстовое поле
                 IsSelected = true
-            });;
+            };
+            InputTabControl.Items.Add(tabItem);
 
             //Добавление список для отслеживания изменений
             isSaved.Add(true);
@@ -434,6 +434,15 @@ namespace HypeProgrammingCompiler
             Scanner scanner = new Scanner(fastColoredTextBox.Text);
             scanner.Analyze();
             OutputTextBlock.Text = scanner.Print();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+
+            fastColoredTextBox.Focus();
         }
     }
 }

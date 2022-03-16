@@ -8,10 +8,12 @@ namespace HypeProgrammingCompiler
 {
     class Scanner
     {
-        public List<(Lexem lexem, string codeSymbol, int startPosition, int endPosition)> decomposedText = new List<(Lexem lexem, string codeSymbol, int startPosition, int endPosition)>();
-        private string text;
+        public List<(Lexem lexem, string codeSymbol, int stringNumber, int startPosition, int endPosition)> decomposedCodeStrings = new List<(Lexem lexem, string codeSymbol, int stringNumber, int startPosition, int endPosition)>();
+        private List<string> codeStrings = new List<string>();
+        int i = 0; // Индекс символа
+        int stringNumber;
         
-        public Scanner(string text) { this.text = text.Trim('\n', '\r', '\0'); }
+        public Scanner(string code) { this.codeStrings = code.Split("\r").ToList(); }
 
         public enum Lexem
         {
@@ -34,222 +36,239 @@ namespace HypeProgrammingCompiler
         {
             string result = "";
 
-            foreach (var decomposition in decomposedText)
+            for (int i = 0; i < decomposedCodeStrings.Count; i++)
             {
-                result += (int)decomposition.lexem + " - ";
-                result += decomposition.lexem + " - ";
-                result += decomposition.codeSymbol + " - ";
-                result += decomposition.startPosition + " - ";
-                result += decomposition.endPosition + ";\n";
+                result += (int)decomposedCodeStrings[i].lexem + " - ";
+                result += decomposedCodeStrings[i].lexem + " - ";
+                result += decomposedCodeStrings[i].codeSymbol + " - ";
+                result += "S: " + decomposedCodeStrings[i].stringNumber + " - ";
+                result += "P: " + decomposedCodeStrings[i].startPosition + "-";
+                result += decomposedCodeStrings[i].endPosition + ";\n";
             }
             
             return result;
         }
 
-        int i = 0;
+        private void Prepare()
+        {
+            for (int i  = 0; i < codeStrings.Count; i++)
+                codeStrings[i] = codeStrings[i].Replace("\n", "");
+        }
+
         public void Analyze()
         {
-            for(; i < text.Length; i++)
+            Prepare();
+
+            for (stringNumber = 0; stringNumber < codeStrings.Count; stringNumber++)
             {
-                if (char.IsLetter(text[i]))
+                i = 0;
+                AnalyzeString(codeStrings[stringNumber]);
+            }
+        }
+
+        private void AnalyzeString(string codeString)
+        {
+            for(; i < codeString.Length; i++)
+            {
+                if (char.IsLetter(codeString[i]))
                 {
-                    MatchIdentifier();
-                    if (text.Length <= i)
+                    MatchIdentifier(codeString);
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == '=')
+                else if (codeString[i] == '=')
                 {
                     MatchAssignOperator();
-                    if (text.Length <= i)
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == ' ')
+                else if (codeString[i] == ' ')
                 {
                     MatchSpaceSymbol();
-                    if (text.Length <= i)
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (char.IsDigit(text[i]))
+                else if (char.IsDigit(codeString[i]))
                 {
-                    MatchDigitOrFloat();
-                    if (text.Length <= i)
+                    MatchDigitOrFloat(codeString);
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == '+')
+                else if (codeString[i] == '+')
                 {
                     MatchPlusOperator();
-                    if (text.Length <= i)
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == '-')
+                else if (codeString[i] == '-')
                 {
                     MatchMinusOperator();
-                    if (text.Length <= i)
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == '*')
+                else if (codeString[i] == '*')
                 {
-                    MatchMultOrExpOperator();
-                    if (text.Length <= i)
+                    MatchMultOrExpOperator(codeString);
+                    if (codeString.Length <= i)
                         break;
                 }
-                else if (text[i] == '/')
+                else if (codeString[i] == '/')
                 {
-                    MatchDivisionOrFloorDivisionOperator();
-                    if (text.Length <= i)
+                    MatchDivisionOrFloorDivisionOperator(codeString);
+                    if (codeString.Length <= i)
                         break;
                 }
                 else
                 {
-                    if (text[i] != '\n' && text[i] != '\r')
-                        MatchInvalid(i, text[i].ToString());
+                    if (codeString[i] != '\n' && codeString[i] != '\r')
+                        MatchInvalid(i, codeString[i].ToString());
                 }
 
             }
         }
 
-        private void MatchIdentifier()
+        private void MatchIdentifier(string codeString)
         {
             string codeSymbol = "";
             int startPosition = i + 1;
 
-            while (char.IsLetterOrDigit(text[i]))
+            while (char.IsLetterOrDigit(codeString[i]))
             {
-                codeSymbol += text[i];
+                codeSymbol += codeString[i];
                 i++;
 
-                if (text.Length <= i)
+                if (codeString.Length <= i)
                     break;
             }
             int endPosition = i;
 
-            decomposedText.Add((Lexem.Identifier, codeSymbol, startPosition, endPosition));
+            decomposedCodeStrings.Add((Lexem.Identifier, codeSymbol, stringNumber, startPosition, endPosition));
             i--;
         }
 
         private void MatchAssignOperator()
         {
-            decomposedText.Add((Lexem.AssignOperator, "=", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.AssignOperator, "=", stringNumber, i + 1, i + 1));
         }
 
         private void MatchSpaceSymbol()
         {
-            decomposedText.Add((Lexem.Space, "(space)", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.Space, "(space)", stringNumber, i + 1, i + 1));
         }
 
-        private void MatchDigitOrFloat()
+        private void MatchDigitOrFloat(string codeString)
         {
             string codeSymbol = "";
             int startPosition = i + 1;
 
-            while (char.IsDigit(text[i]))
+            while (char.IsDigit(codeString[i]))
             {
-                codeSymbol += text[i];
+                codeSymbol += codeString[i];
                 i++;
 
-                if (text.Length <= i)
+                if (codeString.Length <= i)
                     break;
 
-                if (text[i] == '.')
+                if (codeString[i] == '.')
                 {
-                    MatchFloat(startPosition, codeSymbol);
+                    MatchFloat(codeString, startPosition, codeSymbol);
                     return;
                 }
 
             }
             int endPosition = i;
 
-            decomposedText.Add((Lexem.Integer, codeSymbol, startPosition, endPosition));
+            decomposedCodeStrings.Add((Lexem.Integer, codeSymbol, stringNumber, startPosition, endPosition));
             i--;
         }
 
-        private void MatchFloat(int startPosition, string codeSymbol)
+        private void MatchFloat(string codeString, int startPosition, string codeSymbol)
         {
-            if (text.Length == i + 1)
+            if (codeString.Length == i + 1)
             {
-                MatchInvalid(startPosition, codeSymbol += text[i]);
+                MatchInvalid(startPosition, codeSymbol += codeString[i]);
                 return;
             }
 
-            if (!char.IsDigit(text[i + 1]))
+            if (!char.IsDigit(codeString[i + 1]))
             {
-                MatchInvalid(startPosition, codeSymbol += text[i]);
+                MatchInvalid(startPosition, codeSymbol += codeString[i]);
                 //i--;
                 return;
             }
 
             do
             {
-                codeSymbol += text[i];
+                codeSymbol += codeString[i];
                 i++;
 
-                if (text.Length <= i)
+                if (codeString.Length <= i)
                     break;
 
-            } while (char.IsDigit(text[i]));
+            } while (char.IsDigit(codeString[i]));
             int endPosition = i;
 
-            decomposedText.Add((Lexem.Float, codeSymbol, startPosition, endPosition));
+            decomposedCodeStrings.Add((Lexem.Float, codeSymbol, stringNumber, startPosition, endPosition));
             i--;
         }
 
         private void MatchPlusOperator()
         {
-            decomposedText.Add((Lexem.PlusOperator, "+", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.PlusOperator, "+", stringNumber, i + 1, i + 1));
         }
 
         private void MatchMinusOperator()
         {
-            decomposedText.Add((Lexem.MinusOperator, "-", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.MinusOperator, "-", stringNumber, i + 1, i + 1));
         }
 
 
-        private void MatchDivisionOrFloorDivisionOperator()
+        private void MatchDivisionOrFloorDivisionOperator(string codeString)
         {
-            if (text.Length != i + 1)
+            if (codeString.Length != i + 1)
             {
-                if (text[i + 1] == '/')
+                if (codeString[i + 1] == '/')
                 {
                     MatchFloorDivisionOperator();
                     return;
                 }
             }
-            decomposedText.Add((Lexem.DivisionOperator, "/", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.DivisionOperator, "/", stringNumber, i + 1, i + 1));
         }
 
         private void MatchFloorDivisionOperator()
         {
-            decomposedText.Add((Lexem.FloorDivisionOperator, "//", i + 1, i + 2));
+            decomposedCodeStrings.Add((Lexem.FloorDivisionOperator, "//", stringNumber, i + 1, i + 2));
             i++;
         }
 
-        private void MatchMultOrExpOperator()
+        private void MatchMultOrExpOperator(string codeString)
         {
-            if (text.Length != i + 1)
+            if (codeString.Length != i + 1)
             {
-                if (text[i + 1] == '*')
+                if (codeString[i + 1] == '*')
                 {
                     MatchExponentiationOperator();
                     return;
                 }
             }
-            decomposedText.Add((Lexem.MultiplicationOperator, "*", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.MultiplicationOperator, "*", stringNumber, i + 1, i + 1));
         }
 
         private void MatchExponentiationOperator()
         {
-            decomposedText.Add((Lexem.ExponentiationOperator, "**", i + 1, i + 2));
+            decomposedCodeStrings.Add((Lexem.ExponentiationOperator, "**", stringNumber, i + 1, i + 2));
             i++;
         }
 
         private void MatchModulusOperator()
         {
-            decomposedText.Add((Lexem.ModulusOperator, "%", i + 1, i + 1));
+            decomposedCodeStrings.Add((Lexem.ModulusOperator, "%", stringNumber, i + 1, i + 1));
         }
 
         private void MatchInvalid(int startPosition, string codeSymbol)
         {
-            decomposedText.Add((Lexem.Invalid, codeSymbol, startPosition, i + 2));
+            decomposedCodeStrings.Add((Lexem.Invalid, codeSymbol, stringNumber, startPosition, i + 2));
         }
 
     }

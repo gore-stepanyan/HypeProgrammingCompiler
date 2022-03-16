@@ -118,6 +118,12 @@ namespace HypeProgrammingCompiler
                     if (codeString.Length <= i)
                         break;
                 }
+                else if (codeString[i] == '%')
+                {
+                    MatchModulusOperator();
+                    if (codeString.Length <= i)
+                        break;
+                }
                 else
                 {
                     if (codeString[i] != '\n' && codeString[i] != '\r')

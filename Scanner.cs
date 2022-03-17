@@ -41,7 +41,7 @@ namespace HypeProgrammingCompiler
                 result += (int)decomposedCodeStrings[i].lexem + " - ";
                 result += decomposedCodeStrings[i].lexem + " - ";
                 result += decomposedCodeStrings[i].codeSymbol + " - ";
-                result += "S: " + decomposedCodeStrings[i].stringNumber + " - ";
+                result += "S: " + (decomposedCodeStrings[i].stringNumber + 1) + " - ";
                 result += "P: " + decomposedCodeStrings[i].startPosition + "-";
                 result += decomposedCodeStrings[i].endPosition + ";\n";
             }

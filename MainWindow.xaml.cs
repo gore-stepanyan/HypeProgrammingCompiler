@@ -422,7 +422,7 @@ namespace HypeProgrammingCompiler
 
         private void ShowManual(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/manual/manual.pdf"));
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/hypeManual"));
         }
 
         private void Run(object sender, RoutedEventArgs e)

@@ -382,44 +382,6 @@ namespace HypeProgrammingCompiler
             }
         }
 
-        private void ZoomIn(object sender, RoutedEventArgs e)
-        {
-            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
-            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
-            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
-            fastColoredTextBox.Zoom += 25;
-        }
-
-        private void ZoomOut(object sender, RoutedEventArgs e)
-        {
-            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
-            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
-            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
-            fastColoredTextBox.Zoom -= 25;
-        }
-
-        // не работает
-        private void ChangeHighlight(object sender, RoutedEventArgs e)
-        {
-            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
-            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
-            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
-
-            MenuItem menuItem = sender as MenuItem;
-
-            switch (menuItem.Header.ToString())
-            {
-                case "HPL": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.Custom; menuItem.IsChecked = true; break; }
-                case "C#": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.CSharp; menuItem.IsChecked = true; break; }
-                case "JavaScript": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.JS; menuItem.IsChecked = true; break; }
-                case "HTML": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.HTML; menuItem.IsChecked = true; break; }
-                case "PHP": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.PHP; menuItem.IsChecked = true; break; }
-                case "SQL": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.SQL; menuItem.IsChecked = true; break; }
-                case "VB": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.VB; menuItem.IsChecked = true; break; }
-                case "XML": { fastColoredTextBox.Language = FastColoredTextBoxNS.Language.XML; menuItem.IsChecked = true; break; }
-            }
-        }
-
         private void ShowManual(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/hypeManual"));
@@ -431,9 +393,14 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            Scanner scanner = new Scanner(fastColoredTextBox.Text);
-            scanner.Analyze();
-            OutputTextBlock.Text = scanner.Print();
+            DFSMachine machine = new DFSMachine(fastColoredTextBox.Text);
+
+            machine.Analyze();
+            OutputTextBlock.Text = machine.Statements;
+
+            //Scanner scanner = new Scanner(fastColoredTextBox.Text);
+            //scanner.Analyze();
+            //OutputTextBlock.Text = scanner.Print();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

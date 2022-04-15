@@ -73,6 +73,7 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = new FastColoredTextBox();
             fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
+            fastColoredTextBox.TextChanged += AnalyzeChangedText;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
@@ -393,14 +394,19 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            DFSMachine machine = new DFSMachine(fastColoredTextBox.Text);
+            SynthaxAnalyzer analyzer = new SynthaxAnalyzer(fastColoredTextBox.Text);
+            analyzer.Analyze();
+            OutputTextBlock.Text = analyzer.States;
+        }
+        private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            machine.Analyze();
-            OutputTextBlock.Text = machine.Statements;
-
-            //Scanner scanner = new Scanner(fastColoredTextBox.Text);
-            //scanner.Analyze();
-            //OutputTextBlock.Text = scanner.Print();
+            SynthaxAnalyzer analyzer = new SynthaxAnalyzer(fastColoredTextBox.Text);
+            analyzer.Analyze();
+            OutputTextBlock.Text = analyzer.States;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

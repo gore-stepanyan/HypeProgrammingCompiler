@@ -404,9 +404,9 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            SynthaxAnalyzer analyzer = new SynthaxAnalyzer(fastColoredTextBox.Text);
-            analyzer.Analyze();
-            OutputTextBlock.Text = analyzer.States;
+            Parser parser = new Parser(fastColoredTextBox.Text);
+            parser.Parse();
+            OutputTextBlock.Text = parser.Print();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -54,11 +54,6 @@ namespace HypeProgrammingCompiler
                 lexemList.Insert(new Lexem(Lexem.Type.Conjunction, null, 0, 0, 0));
                 lexemList.RemoveNext(lexemList.Current);
             }
-            else if (error.code == 5)
-            {
-                //lexemList.Remove(lexemList.Current);
-            }
-
         }
 
         public string Print()
@@ -87,34 +82,51 @@ namespace HypeProgrammingCompiler
             lexer.Analyze();
             lexemList = lexer.lexemList;
 
+            //Нейтрализация всех "ошибочных" лексем
             lexemList.lexems.RemoveAll(IsErrorLexem);
 
-            do
+            if (lexemList.Count > 0)
             {
-                if (lexemList.Current.type != Lexem.Type.Identifier)
-                    errorList.Add(new Error("Пропущен идентификатор", 1));
-
-                lexemList.Next();
-                if (lexemList.Current.type != Lexem.Type.Disjunction &&
-                    lexemList.Current.type != Lexem.Type.Conjunction)
+                do
                 {
-                    if (lexemList.Current.type == Lexem.Type.ErrorOperator)
-                        errorList.Add(new Error("Некорректный логический оператор", 4));
-                    else
-                        errorList.Add(new Error("Пропущен логический оператор", 2));                    
+                    if (lexemList.Current.type != Lexem.Type.Identifier)
+                        errorList.Add(new Error("Пропущен идентификатор", 1));
+
+                    lexemList.Next();
+                    if (lexemList.Current.type != Lexem.Type.Disjunction &&
+                        lexemList.Current.type != Lexem.Type.Conjunction)
+                    {
+                        if (lexemList.Current.type == Lexem.Type.ErrorOperator)
+                            errorList.Add(new Error("Некорректный логический оператор", 4));
+                        else
+                            errorList.Add(new Error("Пропущен логический оператор", 2));
+                    }
+
+                    lexemList.Next();
+                    if (lexemList.Current.type != Lexem.Type.Identifier)
+                        errorList.Add(new Error("Пропущен идентификатор", 1));
+
+                    while (lexemList.Next() && lexemList.Current.type != Lexem.Type.Semicolon)
+                    {
+                        if (lexemList.Current.type != Lexem.Type.Disjunction &&
+                            lexemList.Current.type != Lexem.Type.Conjunction)
+                        {
+                            if (lexemList.Current.type == Lexem.Type.ErrorOperator)
+                                errorList.Add(new Error("Некорректный логический оператор", 4));
+                            else
+                                errorList.Add(new Error("Пропущен логический оператор", 2));
+                        }
+
+                        lexemList.Next();
+                        if (lexemList.Current.type != Lexem.Type.Identifier)
+                            errorList.Add(new Error("Пропущен идентификатор", 1));
+                    }
+
+                    if (lexemList.Current.type != Lexem.Type.Semicolon)
+                        errorList.Add(new Error("Пропущено \";\"", 3));
                 }
-
-                lexemList.Next();
-                if (lexemList.Current.type != Lexem.Type.Identifier)                
-                    errorList.Add(new Error("Пропущен идентификатор", 1));
-
-                lexemList.Next();
-                if (lexemList.Current.type != Lexem.Type.Semicolon)
-                    errorList.Add(new Error("Пропущено \";\"", 3));
+                while (lexemList.Next());
             }
-            while (lexemList.Next());
-
-
         }
     }
 }

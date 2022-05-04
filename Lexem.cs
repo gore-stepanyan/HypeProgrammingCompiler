@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace HypeProgrammingCompiler
 {
+    public enum LexemType // Перечень типов лексем
+    {
+        ErrorOperator = -1,
+        ErrorToken = 0,
+        Identifier = 1,
+        Disjunction = 2,
+        Conjunction = 3,
+        Semicolon = 4
+    }
+
     public class Lexem
     {
-        public enum Type
-        {
-            ErrorOperator = -1,
-            ErrorToken = 0,
-            Identifier = 1,
-            Disjunction = 2,
-            Conjunction = 3,
-            Semicolon = 4
-        }
+        public LexemType Type { get; set; } 
+        public string Symbol { get; set; }
+        public int StringNumber { get; set; }
+        public int StartPosition { get; set; }
+        public int EndPosition { get; set; }
 
-        public Type type;
-        public string symbol;
-        public int stringNumber;
-        public int startPosition;
-        public int endPosition;
-
-        public Lexem(Type type, string symbol, int stringNumber, int startPosition, int endPosition)
+        public Lexem(LexemType type, string symbol, int stringNumber, int startPosition, int endPosition)
         {
-            this.type = type;
-            this.symbol = symbol;
-            this.stringNumber = stringNumber;
-            this.startPosition = startPosition;
-            this.endPosition = endPosition;
+            Type = type;
+            Symbol = symbol;
+            StringNumber = stringNumber;
+            StartPosition = startPosition;
+            EndPosition = endPosition;
         }
     }
 }

@@ -28,7 +28,6 @@ namespace HypeProgrammingCompiler
         List<bool> isExist = new List<bool>(); //Флаги существований в файловой системе
         List<string> filePath = new List<string>(); //Полные имена в файловой системе
         
-
         public MainWindow()
         {
             InitializeComponent();
@@ -60,7 +59,6 @@ namespace HypeProgrammingCompiler
 
             //Кнопка закрытия вкладки
             Button closeDocumentButton = new Button { Content = image, BorderThickness = new Thickness(0), Background = Brushes.Transparent};
-            //button.Click += Button_Click;
             closeDocumentButton.Click += CloseDocumentButton_Click;
 
             //Контейнер хранения заголовка вкладки и кнопки закрытия
@@ -73,16 +71,11 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = new FastColoredTextBox();
             fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
-            fastColoredTextBox.TextChanged += AnalyzeChangedText;
+            //fastColoredTextBox.TextChanged += AnalyzeChangedText;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
             windowsFormsHost.Child = fastColoredTextBox;
-
-            //TextEditor textEditor = new TextEditor();
-            //textEditor.ShowLineNumbers = true;
-            //textEditor.FontFamily = new FontFamily("Consolas");
-            //textEditor.FontSize = 12;
 
             //Добавление новой вкладки
             TabItem tabItem = new TabItem()
@@ -133,7 +126,6 @@ namespace HypeProgrammingCompiler
                         Save(sender, e);
                         break;
                 }
-                
             }
         }
 
@@ -182,7 +174,6 @@ namespace HypeProgrammingCompiler
             {
                 SaveAs(sender, e);
             }
-
             isSaved[InputTabControl.SelectedIndex] = true;
         }
 
@@ -194,7 +185,6 @@ namespace HypeProgrammingCompiler
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == true)
             {
-                //TextEditor tb = tab.Content as TextEditor;
                 TabItem tabItem = InputTabControl.SelectedItem as TabItem;
                 WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
                 FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
@@ -209,7 +199,6 @@ namespace HypeProgrammingCompiler
             }
         }
 
-
         private void OpenFile(string fileName, string safeFileName)
         {
             foreach (string f in filePath)
@@ -219,12 +208,6 @@ namespace HypeProgrammingCompiler
                     throw new IOException();
                 }
             }
-
-            //Лучше отказаться
-            //if (InputTabControl.Items.Count < 2 && !isExist[0] && isSaved[0])
-            //{
-            //    InputTabControl.Items.Clear();
-            //}
 
             AddPage(null, null);
             TabItem tabItem = InputTabControl.SelectedItem as TabItem;
@@ -394,10 +377,16 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            SynthaxAnalyzer analyzer = new SynthaxAnalyzer(fastColoredTextBox.Text);
-            analyzer.Analyze();
-            OutputTextBlock.Text = analyzer.States;
+            Parser parser = new Parser(fastColoredTextBox.Text);
+            parser.Parse();
+
+            OutputListView.Items.Clear();
+            foreach (Parser.Error error in parser.errorList)
+            {
+                OutputListView.Items.Add(error);
+            }
         }
+
         private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
         {
             TabItem tabItem = InputTabControl.SelectedItem as TabItem;
@@ -406,7 +395,12 @@ namespace HypeProgrammingCompiler
 
             Parser parser = new Parser(fastColoredTextBox.Text);
             parser.Parse();
-            OutputTextBlock.Text = parser.Print();
+
+            OutputListView.Items.Clear();
+            foreach (Parser.Error error in parser.errorList)
+            {
+                OutputListView.Items.Add(error);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

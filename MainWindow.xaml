@@ -169,14 +169,14 @@
             <GridSplitter Grid.Row="3" Height="3" HorizontalAlignment="Stretch" Background="DarkGray"/>
             <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0,2,0,0" Grid.RowSpan="2">
                 <TabItem Header="Результаты работы">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="116*"/>
-                            <ColumnDefinition Width="281*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="OutputTextBlock" Text="Загрузка..." TextWrapping="Wrap" FontFamily="Consolas" FontSize="12" Grid.ColumnSpan="2"/>
-
-                    </Grid>
+                    <ListView x:Name="OutputListView" FontFamily="Consolas" FontSize="14" Margin="2, 2, 2, 2" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Cтрока" DisplayMemberBinding="{Binding StringNumber}"/>
+                                <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Info}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </TabItem>
                 <TabItem Header="Cообщения об ошибках">
                     <Grid>

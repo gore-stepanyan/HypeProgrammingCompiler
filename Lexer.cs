@@ -8,7 +8,7 @@ namespace HypeProgrammingCompiler
 {
     class Lexer
     {
-        public LexemList lexemList = new LexemList();
+        public LexemList lexemList = new LexemList(); // Список лексем для заполнения
         private List<string> textStrings = new List<string>();
         private int i = 0; // Индекс символа
         private int stringNumber = 0; // Номер строки
@@ -25,11 +25,11 @@ namespace HypeProgrammingCompiler
 
             do
             {
-                result += lexemList.Current.type + " - ";
-                result += lexemList.Current.symbol + " - ";
-                result += "S: " + (lexemList.Current.stringNumber) + " - ";
-                result += "P: " + lexemList.Current.startPosition + "-";
-                result += lexemList.Current.endPosition + ";\n";
+                result += lexemList.Current.Type + " - ";
+                result += lexemList.Current.Symbol + " - ";
+                result += "S: " + (lexemList.Current.StringNumber) + " - ";
+                result += "P: " + lexemList.Current.StartPosition + "-";
+                result += lexemList.Current.EndPosition + ";\n";
             }
             while (lexemList.Next());
 
@@ -106,7 +106,7 @@ namespace HypeProgrammingCompiler
             }
             int endPosition = i;
 
-            lexemList.Add(new Lexem(Lexem.Type.Identifier, identifier, stringNumber + 1, startPosition, endPosition));
+            lexemList.Add(new Lexem(LexemType.Identifier, identifier, stringNumber + 1, startPosition, endPosition));
             i--;
         }
 
@@ -116,12 +116,13 @@ namespace HypeProgrammingCompiler
             {
                 if (textString[i + 1] == '|')
                 {
-                    lexemList.Add(new (Lexem.Type.Disjunction, "||", stringNumber + 1, i + 1, i + 2));
+                    lexemList.Add(new (LexemType.Disjunction, "||", stringNumber + 1, i + 1, i + 2));
                     i++;
                     return;
                 }
             }
-            lexemList.Add(new (Lexem.Type.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            // Парсим некорректный оператор
+            lexemList.Add(new (LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchConjunction(string textString)
@@ -130,22 +131,23 @@ namespace HypeProgrammingCompiler
             {
                 if (textString[i + 1] == '&')
                 {
-                    lexemList.Add(new (Lexem.Type.Disjunction, "&&", stringNumber + 1, i + 1, i + 2));
+                    lexemList.Add(new (LexemType.Disjunction, "&&", stringNumber + 1, i + 1, i + 2));
                     i++;
                     return;
                 }
             }
-            lexemList.Add(new (Lexem.Type.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            // Парсим некорректный оператор
+            lexemList.Add(new (LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchSemicolon()
         {
-            lexemList.Add(new (Lexem.Type.Semicolon, ";", stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new (LexemType.Semicolon, ";", stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchErrorToken(string textString)
         {
-            lexemList.Add(new (Lexem.Type.ErrorToken, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new (LexemType.ErrorToken, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
     }
 }

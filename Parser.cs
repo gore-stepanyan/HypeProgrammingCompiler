@@ -9,21 +9,49 @@ namespace HypeProgrammingCompiler
 {
     class Parser
     {
+        // Исходный текст
         private string text;
-        //public ObservableCollection<(string info, int code)> errorList = new ObservableCollection<(string info, int code)>();
-        private ObservableCollection<Error> errorList = new ObservableCollection<Error>();
+        // Список ошибок для вывода и нейтралищации
+        public ObservableCollection<Error> errorList = new ObservableCollection<Error>();
+        // Список лексем - результат декомпозиции текста
         private LexemList lexemList = new LexemList();
 
-        //Класс Error - содержит информацию об ошибке и её код
-        private class Error
+        // Перечесление кодов ошибок
+        public enum ErrorCode 
         {
-            public string info;
-            public int code;
+            NoIdentifier = 1,
+            NoOperator = 2,
+            NoSemicolon = 3,
+            InvalidOperator = 4,
+            InvalidCharacter = 5
+        }
 
-            public Error(string info, int code)
+        //Класс Error - содержит информацию об ошибке и её код
+        public class Error
+        {            
+            public string Info { get; set; }
+            public ErrorCode Code { get; set; }
+            public string Symbol { get; set; }
+            public int StringNumber { get; set; }
+            public int StartPosition { get; set; }
+            public int EndPosition { get; set; }
+
+            public Error(string info, ErrorCode code, string symbol, int stringNumber, int startPosition, int endPoition)
             {
-                this.info = info;
-                this.code = code;
+                Info = info;
+                Code = code;
+                Symbol = symbol;
+                StringNumber = stringNumber;
+                StartPosition = startPosition;
+                EndPosition = endPoition;
+            }
+            public Error(string info, ErrorCode code, int stringNumber, int startPosition, int endPoition)
+            {
+                Info = info;
+                Code = code;
+                StringNumber = stringNumber;
+                StartPosition = startPosition;
+                EndPosition = endPoition;
             }
         }
 
@@ -33,27 +61,28 @@ namespace HypeProgrammingCompiler
             errorList.CollectionChanged += ErrorList_CollectionChanged;
         }
 
+        // Нейтрализация ошибок при их обнаружении
         private void ErrorList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Error error = e.NewItems[0] as Error;
 
-            if (error.code == 1)
+            switch (error.Code)
             {
-                lexemList.Insert(new Lexem(Lexem.Type.Identifier, null, 0, 0, 0));
+                case ErrorCode.NoIdentifier: 
+                    lexemList.Insert(new Lexem(LexemType.Identifier, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    break;
+                case ErrorCode.NoOperator: 
+                    lexemList.Insert(new Lexem(LexemType.Conjunction, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    break;
+                case ErrorCode.NoSemicolon: 
+                    lexemList.Insert(new Lexem(LexemType.Semicolon, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    break;
+                case ErrorCode.InvalidOperator:
+                    lexemList.Insert(new Lexem(LexemType.Conjunction, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+                    lexemList.RemoveNext(lexemList.Current); 
+                    break;
             }
-            else if (error.code == 2)
-            {
-                lexemList.Insert(new Lexem(Lexem.Type.Conjunction, null, 0, 0, 0));
-            }
-            else if (error.code == 3)
-            {
-                lexemList.Insert(new Lexem(Lexem.Type.Semicolon, null, 0, 0, 0));
-            }
-            else if (error.code == 4)
-            {
-                lexemList.Insert(new Lexem(Lexem.Type.Conjunction, null, 0, 0, 0));
-                lexemList.RemoveNext(lexemList.Current);
-            }
+
         }
 
         public string Print()
@@ -61,16 +90,17 @@ namespace HypeProgrammingCompiler
             string result = "";
             foreach (var error in errorList)
             {
-                result += error.info + '\n';
+                result += "Стр. " + error.StringNumber + " ";
+                result += error.Info + '\n';
             }
             return result;
         }
 
-        private bool IsErrorLexem(Lexem lexem)
+        private bool IsErrorLexem(Lexem lexem) // Предикат определения недопустимых лексем и их удаления
         {
-            if (lexem.type == Lexem.Type.ErrorToken)
+            if (lexem.Type == LexemType.ErrorToken)
             {
-                errorList.Add(new Error("Встречен недопустимый символ", 5));
+                errorList.Add(new Error("Встречен недопустимый символ", ErrorCode.InvalidCharacter, lexem.Symbol, lexem.StringNumber, lexem.StartPosition, lexem.EndPosition));
                 return true;
             }
             return false;
@@ -79,53 +109,58 @@ namespace HypeProgrammingCompiler
         public void Parse()
         {
             Lexer lexer = new Lexer(text);
-            lexer.Analyze();
+            lexer.Analyze(); // Декомпозиция текста на лексемы
             lexemList = lexer.lexemList;
 
-            //Нейтрализация всех "ошибочных" лексем
+            // Нейтрализация недопустимых символов
             lexemList.lexems.RemoveAll(IsErrorLexem);
 
             if (lexemList.Count > 0)
             {
                 do
                 {
-                    if (lexemList.Current.type != Lexem.Type.Identifier)
-                        errorList.Add(new Error("Пропущен идентификатор", 1));
+                    // Если пропущен идентификатор
+                    if (lexemList.Current.Type != LexemType.Identifier)
+                        errorList.Add(new Error("Пропущен идентификатор", ErrorCode.NoIdentifier, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
 
                     lexemList.Next();
-                    if (lexemList.Current.type != Lexem.Type.Disjunction &&
-                        lexemList.Current.type != Lexem.Type.Conjunction)
+                    // Если оператор пропущен или некорректен
+                    if (lexemList.Current.Type != LexemType.Disjunction &&
+                        lexemList.Current.Type != LexemType.Conjunction)
                     {
-                        if (lexemList.Current.type == Lexem.Type.ErrorOperator)
-                            errorList.Add(new Error("Некорректный логический оператор", 4));
+                        if (lexemList.Current.Type == LexemType.ErrorOperator)
+                            errorList.Add(new Error("Некорректный логический оператор", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                         else
-                            errorList.Add(new Error("Пропущен логический оператор", 2));
+                            errorList.Add(new Error("Пропущен логический оператор", ErrorCode.NoOperator, lexemList.Prev.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                     }
 
                     lexemList.Next();
-                    if (lexemList.Current.type != Lexem.Type.Identifier)
-                        errorList.Add(new Error("Пропущен идентификатор", 1));
+                    //Если пропущен идентификатор
+                    if (lexemList.Current.Type != LexemType.Identifier)
+                        errorList.Add(new Error("Пропущен идентификатор", ErrorCode.NoIdentifier, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
 
-                    while (lexemList.Next() && lexemList.Current.type != Lexem.Type.Semicolon)
+                    // Итерация * (Замыкание Клини)
+                    while (lexemList.Next() && lexemList.Current.Type != LexemType.Semicolon)
                     {
-                        if (lexemList.Current.type != Lexem.Type.Disjunction &&
-                            lexemList.Current.type != Lexem.Type.Conjunction)
+                        if (lexemList.Current.Type != LexemType.Disjunction &&
+                            lexemList.Current.Type != LexemType.Conjunction)
                         {
-                            if (lexemList.Current.type == Lexem.Type.ErrorOperator)
-                                errorList.Add(new Error("Некорректный логический оператор", 4));
+                            if (lexemList.Current.Type == LexemType.ErrorOperator)
+                                errorList.Add(new Error("Некорректный логический оператор", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                             else
-                                errorList.Add(new Error("Пропущен логический оператор", 2));
+                                errorList.Add(new Error("Пропущен логический оператор", ErrorCode.NoOperator, lexemList.Prev.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                         }
 
                         lexemList.Next();
-                        if (lexemList.Current.type != Lexem.Type.Identifier)
-                            errorList.Add(new Error("Пропущен идентификатор", 1));
+                        if (lexemList.Current.Type != LexemType.Identifier)
+                            errorList.Add(new Error("Пропущен идентификатор", ErrorCode.NoIdentifier, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                     }
 
-                    if (lexemList.Current.type != Lexem.Type.Semicolon)
-                        errorList.Add(new Error("Пропущено \";\"", 3));
+                    // Если пропущено ";"
+                    if (lexemList.Current.Type != LexemType.Semicolon)
+                        errorList.Add(new Error("Пропущено \";\"", ErrorCode.NoSemicolon, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                 }
-                while (lexemList.Next());
+                while (lexemList.Next()); // Цикл до последней лексемы включительно
             }
         }
     }

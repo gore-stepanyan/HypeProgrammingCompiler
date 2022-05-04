@@ -14,19 +14,19 @@ namespace HypeProgrammingCompiler
         public LexemList() { }
         public LexemList(List<Lexem> lexems) { this.lexems = lexems; }
 
-        public Lexem Current
+        public Lexem Current // Возврат лексемы на которую указывает индекс
         {
             get
             {
                 if (i >= lexems.Count)
                 {
-                    return new Lexem(0, null, 0, 0, 0);
+                    return new Lexem(0, null, lexems[i - 1].StringNumber, 0, 0);
                 }
                 return lexems[i];
             }
         }
 
-        public bool Next()
+        public bool Next() // Перемещение индекса вперёд
         {
             i++;
             if (i < lexems.Count)
@@ -37,40 +37,36 @@ namespace HypeProgrammingCompiler
                 return false;
         }
 
-        public void Add(Lexem lexem)
+        public Lexem Prev // Возврат предыдущей лексемы от текщуего индекса
+        {
+            get
+            {
+                if (i > 0)
+                    return lexems[i - 1];
+                else
+                    return new Lexem(0, null, 0, 0, 0);
+            }
+        }
+
+        public void Add(Lexem lexem) // Вставка в конец
         {
             lexems.Add(lexem);
         }
 
-        public int Count 
+        public int Count // Возврат числа лексем в списке
         {
             get
             {
                 return lexems.Count;
             }
         }
-
-        public Lexem this[int i]
-        {
-            get
-            {
-                return lexems[i];
-            }
-        }
-
-        public void Remove(Lexem lexem)
-        {
-            lexems.Remove(lexem);
-            if (i  >= lexems.Count)
-                i--;
-        }
-
-        public void RemoveNext(Lexem lexem)
+        
+        public void RemoveNext(Lexem lexem) // Удаление лексемы следующей за текущей
         {
             lexems.RemoveAt(lexems.IndexOf(lexem) + 1);
         }
 
-        public void Insert(Lexem lexem)
+        public void Insert(Lexem lexem) // Вставка лексемы по текущему индексу
         {
             lexems.Insert(i , lexem);
         }       

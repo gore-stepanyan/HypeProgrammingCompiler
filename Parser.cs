@@ -15,6 +15,20 @@ namespace HypeProgrammingCompiler
         public ObservableCollection<Error> errorList = new ObservableCollection<Error>();
         // Список лексем - результат декомпозиции текста
         private LexemList lexemList = new LexemList();
+        private string fixedString = "";
+        // Исправленная строка
+        public string FixedString 
+        {
+            get
+            {
+                foreach (var lexem in lexemList.lexems)
+                {
+                    fixedString += lexem.Symbol + " ";
+                }
+                return fixedString;
+            }
+        }
+
 
         // Перечесление кодов ошибок
         public enum ErrorCode 
@@ -69,16 +83,20 @@ namespace HypeProgrammingCompiler
             switch (error.Code)
             {
                 case ErrorCode.NoIdentifier: 
-                    lexemList.Insert(new Lexem(LexemType.Identifier, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
                     break;
                 case ErrorCode.NoOperator: 
-                    lexemList.Insert(new Lexem(LexemType.Conjunction, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    lexemList.Insert(new Lexem(LexemType.Conjunction, "||", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
                     break;
                 case ErrorCode.NoSemicolon: 
-                    lexemList.Insert(new Lexem(LexemType.Semicolon, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    lexemList.Insert(new Lexem(LexemType.Semicolon, ";", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
                     break;
                 case ErrorCode.InvalidOperator:
-                    lexemList.Insert(new Lexem(LexemType.Conjunction, null, lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+                    if (lexemList.Current.Symbol == "|")
+                        lexemList.Insert(new Lexem(LexemType.Conjunction, "||", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+                    else
+                        lexemList.Insert(new Lexem(LexemType.Conjunction, "&&", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+
                     lexemList.RemoveNext(lexemList.Current); 
                     break;
             }

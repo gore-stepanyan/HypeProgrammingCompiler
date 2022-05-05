@@ -169,7 +169,7 @@
             <GridSplitter Grid.Row="3" Height="3" HorizontalAlignment="Stretch" Background="DarkGray"/>
             <TabControl x:Name="OutputTabControl" Grid.Row="4" Margin="0,2,0,0" Grid.RowSpan="2">
                 <TabItem Header="Результаты работы">
-                    <ListView x:Name="OutputListView" FontFamily="Consolas" FontSize="14" Margin="2, 2, 2, 2" >
+                    <ListView x:Name="OutputListView" FontFamily="Consolas" FontSize="14" Margin="2" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cтрока" DisplayMemberBinding="{Binding StringNumber}"/>
@@ -178,9 +178,14 @@
                         </ListView.View>
                     </ListView>
                 </TabItem>
+                <TabItem Header="Исправленная строка">
+                    <Grid>
+                        <TextBlock x:Name="FixedOutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Cообщения об ошибках">
                     <Grid>
-                        <TextBlock x:Name="ErrorTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+                        <TextBlock x:Name="ErrorTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
                     </Grid>
                 </TabItem>
             </TabControl>

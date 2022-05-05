@@ -385,6 +385,8 @@ namespace HypeProgrammingCompiler
             {
                 OutputListView.Items.Add(error);
             }
+
+            FixedOutputTextBlock.Text = parser.FixedString;
         }
 
         private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)

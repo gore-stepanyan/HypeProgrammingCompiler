@@ -371,22 +371,57 @@ namespace HypeProgrammingCompiler
             Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/manual/Readme.pdf"));
         }
 
-        private void Run(object sender, RoutedEventArgs e)
+        private void RunIPV6(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = InputTabControl.SelectedItem as TabItem;
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            Parser parser = new Parser(fastColoredTextBox.Text);
-            parser.Parse();
+            MyRegExp.MatchIPV6(fastColoredTextBox.Text);
+            
+            OutputListView.Items.Clear();
+            foreach (MatchedSubstring substring in MyRegExp.MatchedSubstrings)
+            {
+                OutputListView.Items.Add(substring);
+            }
+            FastColoredTextBoxNS.Style BlueStyle = new TextStyle(System.Drawing.Brushes.Blue, null, System.Drawing.FontStyle.Regular);
+            fastColoredTextBox.ClearStyle(FastColoredTextBoxNS.StyleIndex.All);
+            fastColoredTextBox.Range.SetStyle(BlueStyle, MyRegExp.RegexIPV6);
+        }
+
+        private void Run2010(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
+
+            MyRegExp.Match2010(fastColoredTextBox.Text);
 
             OutputListView.Items.Clear();
-            foreach (Parser.Error error in parser.errorList)
+            foreach (MatchedSubstring substring in MyRegExp.MatchedSubstrings)
             {
-                OutputListView.Items.Add(error);
+                OutputListView.Items.Add(substring);
             }
+            FastColoredTextBoxNS.Style BlueStyle = new TextStyle(System.Drawing.Brushes.Blue, null, System.Drawing.FontStyle.Regular);
+            fastColoredTextBox.ClearStyle(FastColoredTextBoxNS.StyleIndex.All);
+            fastColoredTextBox.Range.SetStyle(BlueStyle, MyRegExp.Regex2010);
+        }
+        private void Run10(object sender, RoutedEventArgs e)
+        {
+            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
+            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
+            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            FixedOutputTextBlock.Text = parser.FixedString;
+            MyRegExp.Match10(fastColoredTextBox.Text);
+
+            OutputListView.Items.Clear();
+            foreach (MatchedSubstring substring in MyRegExp.MatchedSubstrings)
+            {
+                OutputListView.Items.Add(substring);
+            }
+            FastColoredTextBoxNS.Style BlueStyle = new TextStyle(System.Drawing.Brushes.Blue, null, System.Drawing.FontStyle.Regular);
+            fastColoredTextBox.ClearStyle(FastColoredTextBoxNS.StyleIndex.All);
+            fastColoredTextBox.Range.SetStyle(BlueStyle, @"0*10*10*10*");
         }
 
         private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)

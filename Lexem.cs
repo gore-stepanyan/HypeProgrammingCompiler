@@ -16,9 +16,10 @@ namespace HypeProgrammingCompiler
         Semicolon = 4
     }
 
+    // Предоставляет хранение свойств токена и доступ к ним
     public class Lexem
     {
-        public LexemType Type { get; set; } 
+        public LexemType Type { get; set; }
         public string Symbol { get; set; }
         public int StringNumber { get; set; }
         public int StartPosition { get; set; }

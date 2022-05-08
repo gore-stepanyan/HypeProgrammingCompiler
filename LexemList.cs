@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HypeProgrammingCompiler
 {
+    // Хранит лист токенов
     class LexemList
     {
         public List<Lexem> lexems = new List<Lexem>();

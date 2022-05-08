@@ -15,20 +15,32 @@ namespace HypeProgrammingCompiler
         public ObservableCollection<Error> errorList = new ObservableCollection<Error>();
         // Список лексем - результат декомпозиции текста
         private LexemList lexemList = new LexemList();
-        private string fixedString = "";
-        // Исправленная строка
-        public string FixedString 
+        // Исправленные строки
+         public List<FixedString> FixedStrings = new List<FixedString>();
+        public struct FixedString 
         {
-            get
+            public int StringNumber { get; set; }
+            public string Content { get; set; }
+
+            public FixedString(int stringNumber, string content)
             {
-                foreach (var lexem in lexemList.lexems)
-                {
-                    fixedString += lexem.Symbol + " ";
-                }
-                return fixedString;
+                StringNumber = stringNumber;
+                Content = content;
             }
         }
-
+        public void PrepareFixedStrings() 
+        {
+            string fixedString = "";
+            foreach (var lexem in lexemList.lexems)
+            {
+                fixedString += lexem.Symbol + " ";
+                if (lexem.Symbol == ";")
+                {
+                    FixedStrings.Add(new FixedString(lexem.StringNumber, fixedString));
+                    fixedString = "";
+                }
+            }
+        }
 
         // Перечесление кодов ошибок
         public enum ErrorCode 
@@ -103,17 +115,6 @@ namespace HypeProgrammingCompiler
 
         }
 
-        public string Print()
-        {
-            string result = "";
-            foreach (var error in errorList)
-            {
-                result += "Стр. " + error.StringNumber + " ";
-                result += error.Info + '\n';
-            }
-            return result;
-        }
-
         private bool IsErrorLexem(Lexem lexem) // Предикат определения недопустимых лексем и их удаления
         {
             if (lexem.Type == LexemType.ErrorToken)
@@ -180,6 +181,8 @@ namespace HypeProgrammingCompiler
                 }
                 while (lexemList.Next()); // Цикл до последней лексемы включительно
             }
+
+            PrepareFixedStrings();
         }
     }
 }

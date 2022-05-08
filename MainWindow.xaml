@@ -173,15 +173,20 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cтрока" DisplayMemberBinding="{Binding StringNumber}"/>
-                                <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Info}"/>
+                                <GridViewColumn Width="400" Header="Описание" DisplayMemberBinding="{Binding Info}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </TabItem>
-                <TabItem Header="Исправленная строка">
-                    <Grid>
-                        <TextBlock x:Name="FixedOutputTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
-                    </Grid>
+                <TabItem Header="Нейтрализация">
+                    <ListView x:Name="FixedOutputListView" FontFamily="Consolas" FontSize="14" Margin="2" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Cтрока" DisplayMemberBinding="{Binding StringNumber}"/>
+                                <GridViewColumn Width="400" Header="Результат" DisplayMemberBinding="{Binding Content}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </TabItem>
                 <TabItem Header="Cообщения об ошибках">
                     <Grid>

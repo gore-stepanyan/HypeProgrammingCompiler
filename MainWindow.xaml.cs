@@ -386,7 +386,11 @@ namespace HypeProgrammingCompiler
                 OutputListView.Items.Add(error);
             }
 
-            FixedOutputTextBlock.Text = parser.FixedString;
+            FixedOutputListView.Items.Clear();
+            foreach (var fixedString in parser.FixedStrings)
+            {
+                FixedOutputListView.Items.Add(fixedString);
+            }
         }
 
         private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)

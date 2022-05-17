@@ -368,7 +368,7 @@ namespace HypeProgrammingCompiler
 
         private void ShowManual(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/manual/Readme.pdf"));
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf"));
         }
 
         private void Run(object sender, RoutedEventArgs e)
@@ -416,6 +416,46 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
             fastColoredTextBox.Focus();
+        }
+
+        private void Task(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=3"));
+        }
+
+        private void Grammar(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=4"));
+        }
+
+        private void Classification(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=5"));
+        }
+
+        private void AnalyzeMethod(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=6"));
+        }
+
+        private void Neutralization(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=7"));
+        }
+
+        private void Test(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=8"));
+        }
+
+        private void Literature(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=21"));
+        }
+
+        private void Listing(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=11"));
         }
     }
 }

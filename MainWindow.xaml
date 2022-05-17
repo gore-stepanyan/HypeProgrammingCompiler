@@ -110,14 +110,14 @@
                     </MenuItem>-->
 
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Грамматика" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Классификация грамматики" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Метод анализа" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Диагностика и нейтрализация ошибок" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Тестовый пример" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Список литературы" BorderThickness="0,0,0,0"/>
-                        <MenuItem Header="Исходный код программы" BorderThickness="0,0,0,0"/>
+                        <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0" Click="Task"/>
+                        <MenuItem Header="Грамматика" BorderThickness="0,0,0,0" Click="Grammar"/>
+                        <MenuItem Header="Классификация грамматики" BorderThickness="0,0,0,0" Click="Classification"/>
+                        <MenuItem Header="Метод анализа" BorderThickness="0,0,0,0" Click="AnalyzeMethod"/>
+                        <MenuItem Header="Диагностика и нейтрализация ошибок" BorderThickness="0,0,0,0" Click="Neutralization"/>
+                        <MenuItem Header="Тестовый пример" BorderThickness="0,0,0,0" Click="Test"/>
+                        <MenuItem Header="Список литературы" BorderThickness="0,0,0,0" Click="Literature"/>
+                        <MenuItem Header="Исходный код программы" BorderThickness="0,0,0,0" Click="Listing"/>
                     </MenuItem>
                     <MenuItem Header="Пуск" Margin="0,6,10,0" BorderThickness="0,0,0,0" Click="Run"/>
                     <MenuItem Header="Справка" Margin="0,6,10,0" BorderThickness="0,0,0,0">

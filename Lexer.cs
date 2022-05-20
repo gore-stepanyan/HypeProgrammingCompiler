@@ -13,10 +13,10 @@ namespace HypeProgrammingCompiler
         private int i = 0; // Индекс символа
         private int stringNumber = 0; // Номер строки
 
-        public Lexer(string text) 
-        { 
-            textStrings = text.Split("\n").ToList(); 
-            textStrings[textStrings.Count - 1] += "\r"; 
+        public Lexer(string text)
+        {
+            textStrings = text.Split("\n").ToList();
+            textStrings[textStrings.Count - 1] += "\r";
         }
 
         public string Print()
@@ -116,13 +116,13 @@ namespace HypeProgrammingCompiler
             {
                 if (textString[i + 1] == '|')
                 {
-                    lexemList.Add(new (LexemType.Disjunction, "||", stringNumber + 1, i + 1, i + 2));
+                    lexemList.Add(new Lexem(LexemType.Disjunction, "||", stringNumber + 1, i + 1, i + 2));
                     i++;
                     return;
                 }
             }
             // Парсим некорректный оператор
-            lexemList.Add(new (LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new Lexem(LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchConjunction(string textString)
@@ -131,23 +131,23 @@ namespace HypeProgrammingCompiler
             {
                 if (textString[i + 1] == '&')
                 {
-                    lexemList.Add(new (LexemType.Disjunction, "&&", stringNumber + 1, i + 1, i + 2));
+                    lexemList.Add(new Lexem(LexemType.Disjunction, "&&", stringNumber + 1, i + 1, i + 2));
                     i++;
                     return;
                 }
             }
             // Парсим некорректный оператор
-            lexemList.Add(new (LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new Lexem(LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchSemicolon()
         {
-            lexemList.Add(new (LexemType.Semicolon, ";", stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new Lexem(LexemType.Semicolon, ";", stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchErrorToken(string textString)
         {
-            lexemList.Add(new (LexemType.ErrorToken, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            lexemList.Add(new Lexem(LexemType.ErrorToken, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
         }
     }
 }

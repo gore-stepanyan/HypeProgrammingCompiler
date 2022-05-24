@@ -381,10 +381,14 @@ namespace HypeProgrammingCompiler
             parser.Parse();
 
             OutputListView.Items.Clear();
-            foreach (Parser.Error error in parser.errorList)
-            {
-                OutputListView.Items.Add(error);
-            }
+            if (parser.errorList.Count == 0)
+                OutputListView.Items.Add(new Parser.NoErrorMessage());
+            else
+                foreach (Parser.Error error in parser.errorList)
+                {
+
+                    OutputListView.Items.Add(error);
+                }
 
             FixedOutputListView.Items.Clear();
             foreach (var fixedString in parser.FixedStrings)
@@ -403,10 +407,14 @@ namespace HypeProgrammingCompiler
             parser.Parse();
 
             OutputListView.Items.Clear();
-            foreach (Parser.Error error in parser.errorList)
-            {
-                OutputListView.Items.Add(error);
-            }
+            if (parser.errorList.Count == 0)
+                OutputListView.Items.Add(new Parser.Error("Ошибок не найдено", 0, 0, 0, 0));
+            else
+                foreach (Parser.Error error in parser.errorList)
+                {
+                
+                    OutputListView.Items.Add(error);
+                }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

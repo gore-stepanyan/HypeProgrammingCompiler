@@ -80,6 +80,11 @@ namespace HypeProgrammingCompiler
                 EndPosition = endPoition;
             }
         }
+        // Специальное сообщение об отсутствии ошибок
+        public struct NoErrorMessage
+        {
+            public string Info { get { return "Ошибок не найдено"; } }
+        }
 
         public Parser(string text) 
         { 

@@ -26,6 +26,8 @@
     <None Remove="Resources\file-plus-outline.png" />
     <None Remove="Resources\information.png" />
     <None Remove="Resources\magnify-plus.png" />
+    <None Remove="Resources\play-box-outline.png" />
+    <None Remove="Resources\play.png" />
     <None Remove="Resources\select-all.png" />
     <None Remove="Resources\tab-remove.png" />
     <None Remove="Resources\trash-can-outline.png" />
@@ -63,6 +65,8 @@
     <Resource Include="Resources\folder-outline.png" />
     <Resource Include="Resources\information.png" />
     <Resource Include="Resources\magnify-plus.png" />
+    <Resource Include="Resources\play-box-outline.png" />
+    <Resource Include="Resources\play.png" />
     <Resource Include="Resources\select-all.png" />
     <Resource Include="Resources\tab-remove.png" />
     <Resource Include="Resources\trash-can-outline.png" />

@@ -164,6 +164,11 @@
                 <Button x:Name="PasteButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Insert">
                     <Image Source="/Resources/clipboard-text-multiple-outline.png" Stretch="None" OpacityMask="#F2000000"/>
                 </Button>
+
+                <Button x:Name="PlayButton" Width="34" Height="34" Margin="5,5,5,5" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="Run">
+                    <Image Source="/Resources/play.png" Stretch="None" OpacityMask="#F2000000"/>
+                </Button>
+
             </StackPanel>
             <TabControl x:Name="InputTabControl" Grid.Row="2"/>
             <GridSplitter Grid.Row="3" Height="3" HorizontalAlignment="Stretch" Background="DarkGray"/>

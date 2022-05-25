@@ -100,14 +100,6 @@ namespace HypeProgrammingCompiler
             switch (error.Code)
             {
                 case ErrorCode.NoIdentifier:
-                    //if (lexemList.Current.Type == LexemType.Disjunction || lexemList.Current.Type == LexemType.ErrorOperator || lexemList.Current.Type == LexemType.Conjunction)
-                    //{
-                    //    lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
-                    //}
-                    //else
-                    //{
-                    //    lexemList.Replace(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
-                    //}
                     lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
                     break;
                 case ErrorCode.NoOperator: 
@@ -125,7 +117,6 @@ namespace HypeProgrammingCompiler
                     lexemList.RemoveNext(lexemList.Current); 
                     break;
             }
-
         }
 
         private bool IsErrorLexem(Lexem lexem) // Предикат определения недопустимых лексем и их удаления

@@ -136,20 +136,32 @@ namespace HypeProgrammingCompiler
                     return;
                 }
             }
-
             // Парсим некорректный оператор
-            if (textString.Length != i + 1)
+            string errorToken = "";
+            int startPosition = i + 1;
+
+            while (textString[i] != ' ' && textString[i] != ';' && textString[i] != '\n' && textString[i] != '\r')
             {
-                if (textString[i + 1] == ' ')
+                errorToken += textString[i];
+                i++;
+
+                if (textString.Length <= i)
+                    break;
+
+                if (textString[i] == '|' || textString[i] == '&')
                 {
-                    lexemList.Add(new Lexem(LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
-                    i++;
-                    return;
+                    if (textString.Length + 1 > i)
+                    {
+                        if (textString[i + 1] == '|' || textString[i + 1] == '&')
+                            break;
+                    }
                 }
+
             }
-            // Парсим недопустимый символ
-            MatchErrorToken(textString);
-            //lexemList.Add(new Lexem(LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            int endPosition = i;
+            i--;
+
+            lexemList.Add(new Lexem(LexemType.ErrorOperator, errorToken, stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchConjunction(string textString)
@@ -164,7 +176,31 @@ namespace HypeProgrammingCompiler
                 }
             }
             // Парсим некорректный оператор
-            lexemList.Add(new Lexem(LexemType.ErrorOperator, textString[i].ToString(), stringNumber + 1, i + 1, i + 1));
+            string errorToken = "";
+            int startPosition = i + 1;
+
+            while (textString[i] != ' ' && textString[i] != ';' && textString[i] != '\n' && textString[i] != '\r')
+            {
+                errorToken += textString[i];
+                i++;
+
+                if (textString.Length <= i)
+                    break;
+
+                if (textString[i] == '|' || textString[i] == '&')
+                {
+                    if (textString.Length + 1 > i)
+                    {
+                        if (textString[i + 1] == '|' || textString[i + 1] == '&')
+                            break;
+                    }
+                }
+
+            }
+            int endPosition = i;
+            i--;
+
+            lexemList.Add(new Lexem(LexemType.ErrorOperator, errorToken, stringNumber + 1, i + 1, i + 1));
         }
 
         private void MatchSemicolon()

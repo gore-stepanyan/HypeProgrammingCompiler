@@ -99,17 +99,25 @@ namespace HypeProgrammingCompiler
 
             switch (error.Code)
             {
-                case ErrorCode.NoIdentifier: 
-                    lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                case ErrorCode.NoIdentifier:
+                    //if (lexemList.Current.Type == LexemType.Disjunction || lexemList.Current.Type == LexemType.ErrorOperator || lexemList.Current.Type == LexemType.Conjunction)
+                    //{
+                    //    lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+                    //}
+                    //else
+                    //{
+                    //    lexemList.Replace(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
+                    //}
+                    lexemList.Insert(new Lexem(LexemType.Identifier, "<Identifier>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
                     break;
                 case ErrorCode.NoOperator: 
-                    lexemList.Insert(new Lexem(LexemType.Conjunction, "||", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
+                    lexemList.Insert(new Lexem(LexemType.Conjunction, "<Operator>", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
                     break;
                 case ErrorCode.NoSemicolon: 
                     lexemList.Insert(new Lexem(LexemType.Semicolon, ";", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0)); 
                     break;
                 case ErrorCode.InvalidOperator:
-                    if (lexemList.Current.Symbol == "|")
+                    if (lexemList.Current.Symbol[0] == '|')
                         lexemList.Insert(new Lexem(LexemType.Conjunction, "||", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
                     else
                         lexemList.Insert(new Lexem(LexemType.Conjunction, "&&", lexemList.Current.StringNumber, lexemList.Current.StartPosition, 0));
@@ -124,7 +132,7 @@ namespace HypeProgrammingCompiler
         {
             if (lexem.Type == LexemType.ErrorToken)
             {
-                errorList.Add(new Error("Встречен недопустимый символ", ErrorCode.InvalidCharacter, lexem.Symbol, lexem.StringNumber, lexem.StartPosition, lexem.EndPosition));
+                errorList.Add(new Error("Встречен недопустимый символ: \"" + lexem.Symbol + "\"", ErrorCode.InvalidCharacter, lexem.Symbol, lexem.StringNumber, lexem.StartPosition, lexem.EndPosition));
                 return true;
             }
             return false;
@@ -153,7 +161,7 @@ namespace HypeProgrammingCompiler
                         lexemList.Current.Type != LexemType.Conjunction)
                     {
                         if (lexemList.Current.Type == LexemType.ErrorOperator)
-                            errorList.Add(new Error("Некорректный логический оператор", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
+                            errorList.Add(new Error("Некорректный логический оператор: \"" + lexemList.Current.Symbol + "\"", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                         else
                             errorList.Add(new Error("Пропущен логический оператор", ErrorCode.NoOperator, lexemList.Prev.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                     }
@@ -170,7 +178,7 @@ namespace HypeProgrammingCompiler
                             lexemList.Current.Type != LexemType.Conjunction)
                         {
                             if (lexemList.Current.Type == LexemType.ErrorOperator)
-                                errorList.Add(new Error("Некорректный логический оператор", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
+                                errorList.Add(new Error("Некорректный логический оператор: \"" + lexemList.Current.Symbol + "\"", ErrorCode.InvalidOperator, lexemList.Current.Symbol, lexemList.Current.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                             else
                                 errorList.Add(new Error("Пропущен логический оператор", ErrorCode.NoOperator, lexemList.Prev.StringNumber, lexemList.Current.StartPosition, lexemList.Current.EndPosition));
                         }

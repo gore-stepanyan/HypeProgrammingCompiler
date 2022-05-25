@@ -25,6 +25,7 @@ namespace HypeProgrammingCompiler
                 }
                 return lexems[i];
             }
+            set { }
         }
 
         public bool Next() // Перемещение индекса вперёд
@@ -70,6 +71,15 @@ namespace HypeProgrammingCompiler
         public void Insert(Lexem lexem) // Вставка лексемы по текущему индексу
         {
             lexems.Insert(i , lexem);
-        }       
+        }
+
+        public void Replace(Lexem lexem)
+        {
+            int index = lexems.FindIndex(l => l == Current);
+
+            if (index != -1)
+                lexems[index] = lexem;
+
+        }
     }
 }

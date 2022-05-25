@@ -71,6 +71,7 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = new FastColoredTextBox();
             fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
+            fastColoredTextBox.TextChanged += AnalyzeChangedText;
             //fastColoredTextBox.TextChanged += AnalyzeChangedText;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
@@ -403,18 +404,9 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            Parser parser = new Parser(fastColoredTextBox.Text);
-            parser.Parse();
-
-            OutputListView.Items.Clear();
-            if (parser.errorList.Count == 0)
-                OutputListView.Items.Add(new Parser.Error("Ошибок не найдено", 0, 0, 0, 0));
-            else
-                foreach (Parser.Error error in parser.errorList)
-                {
-                
-                    OutputListView.Items.Add(error);
-                }
+            Lexer lexer = new Lexer(fastColoredTextBox.Text);
+            lexer.Analyze();
+            LexemListTextBlock.Text = lexer.Print();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

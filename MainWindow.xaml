@@ -198,6 +198,12 @@
                         <TextBlock x:Name="ErrorTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
                     </Grid>
                 </TabItem>
+                <TabItem Header="Список лексем">
+                    <Grid>
+                        <TextBlock x:Name="LexemListTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+                    </Grid>
+                </TabItem>
+                
             </TabControl>
         </Grid>
     </Border>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace HypeProgrammingCompiler
 {
@@ -27,9 +28,7 @@ namespace HypeProgrammingCompiler
             {
                 result += lexemList.Current.Type + " - ";
                 result += lexemList.Current.Symbol + " - ";
-                result += "S: " + (lexemList.Current.StringNumber) + " - ";
-                result += "P: " + lexemList.Current.StartPosition + "-";
-                result += lexemList.Current.EndPosition + ";\n";
+                result += "S: " + (lexemList.Current.StringNumber) + "\n";
             }
             while (lexemList.Next());
 
@@ -96,18 +95,38 @@ namespace HypeProgrammingCompiler
             string identifier = "";
             int startPosition = i + 1;
 
-            while (char.IsLetterOrDigit(textString[i]))
+            while (textString[i] != ' ' && textString[i] != ';' && textString[i] != '\n' && textString[i] != '\r')
             {
                 identifier += textString[i];
                 i++;
 
                 if (textString.Length <= i)
                     break;
+
+                if (textString[i] == '|' || textString[i] == '&')
+                {
+                    if (textString.Length + 1 > i)
+                    {
+                        if (textString[i + 1] == '|' || textString[i + 1] == '&')
+                            break;
+                    }
+                }
+
             }
             int endPosition = i;
 
-            lexemList.Add(new Lexem(LexemType.Identifier, identifier, stringNumber + 1, startPosition, endPosition));
+            string pattern = @"\W";
+            if (Regex.IsMatch(identifier, pattern, RegexOptions.ECMAScript))
+            {
+                lexemList.Add(new Lexem(LexemType.ErrorToken, identifier, stringNumber + 1, startPosition, endPosition));
+            }
+            else
+                lexemList.Add(new Lexem(LexemType.Identifier, identifier, stringNumber + 1, startPosition, endPosition));
             i--;
+
+            string жопич = "";
+            int Ы = жопич.Length;
+
         }
 
         private void MatchDisjunction(string textString)

@@ -33,5 +33,12 @@ namespace HypeProgrammingCompiler
             StartPosition = startPosition;
             EndPosition = endPosition;
         }
+
+        public Lexem(LexemType type, string symbol, int stringNumber)
+        {
+            Type = type;
+            Symbol = symbol;
+            StringNumber = stringNumber;
+        }
     }
 }

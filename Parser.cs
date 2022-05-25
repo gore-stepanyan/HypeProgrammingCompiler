@@ -14,9 +14,9 @@ namespace HypeProgrammingCompiler
         // Список ошибок для вывода и нейтралищации
         public ObservableCollection<Error> errorList = new ObservableCollection<Error>();
         // Список лексем - результат декомпозиции текста
-        private LexemList lexemList = new LexemList();
+        public LexemList lexemList = new LexemList();
         // Исправленные строки
-         public List<FixedString> FixedStrings = new List<FixedString>();
+        public List<FixedString> FixedStrings = new List<FixedString>();
         public struct FixedString 
         {
             public int StringNumber { get; set; }

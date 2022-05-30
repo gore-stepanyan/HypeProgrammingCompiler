@@ -71,8 +71,6 @@ namespace HypeProgrammingCompiler
             FastColoredTextBox fastColoredTextBox = new FastColoredTextBox();
             fastColoredTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             fastColoredTextBox.TextChanged += FastColoredTextBox_TextChanged;
-            fastColoredTextBox.TextChanged += AnalyzeChangedText;
-            //fastColoredTextBox.TextChanged += AnalyzeChangedText;
             fastColoredTextBox.Font = new System.Drawing.Font("Consolas", 12);
             fastColoredTextBox.Zoom = 100;
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
@@ -378,6 +376,10 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
+            Lexer lexer = new Lexer(fastColoredTextBox.Text);
+            lexer.Analyze();
+            LexemListTextBlock.Text = lexer.Print();
+
             Parser parser = new Parser(fastColoredTextBox.Text);
             parser.Parse();
 
@@ -396,17 +398,6 @@ namespace HypeProgrammingCompiler
             {
                 FixedOutputListView.Items.Add(fixedString);
             }
-        }
-
-        private void AnalyzeChangedText(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-        {
-            TabItem tabItem = InputTabControl.SelectedItem as TabItem;
-            WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
-            FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
-
-            Lexer lexer = new Lexer(fastColoredTextBox.Text);
-            lexer.Analyze();
-            LexemListTextBlock.Text = lexer.Print();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

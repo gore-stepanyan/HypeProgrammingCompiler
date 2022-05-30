@@ -83,32 +83,6 @@
                         </MenuItem>
                     </MenuItem>
 
-                    <!--<MenuItem Header="Вид" Margin="0,6,10,0" BorderThickness="0,0,0,0">
-                        <MenuItem Header="Масштаб" BorderThickness="0,0,0,0">
-                            <MenuItem.Icon>
-                                <Image Source="/Resources/magnify-plus.png"/>
-                            </MenuItem.Icon>
-
-                            <MenuItem Header="Приблизить" BorderThickness="0,0,0,0" Click="ZoomIn"/>
-                            <MenuItem Header="Отдалить" BorderThickness="0,0,0,0" Click="ZoomOut"/>
-                        </MenuItem>
-                        
-                        <MenuItem Header="Подсветка синтаксиса" BorderThickness="0,0,0,0">
-                            <MenuItem.Icon>
-                                <Image Source="/Resources/code-braces-box.png"/>
-                            </MenuItem.Icon>
-                            
-                            <MenuItem Header="HPL" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="C#" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="JavaScript" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="HTML" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="PHP" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="SQL" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="VB" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                            <MenuItem Header="XML" BorderThickness="0,0,0,0" Click="ChangeHighlight"/>
-                        </MenuItem>
-                    </MenuItem>-->
-
                     <MenuItem Header="Текст" Margin="0,6,10,0" BorderThickness="0,0,0,0">
                         <MenuItem Header="Постановка задачи" BorderThickness="0,0,0,0" Click="Task"/>
                         <MenuItem Header="Грамматика" BorderThickness="0,0,0,0" Click="Grammar"/>

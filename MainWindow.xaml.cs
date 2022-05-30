@@ -376,10 +376,6 @@ namespace HypeProgrammingCompiler
             WindowsFormsHost windowsFormsHost = tabItem.Content as WindowsFormsHost;
             FastColoredTextBox fastColoredTextBox = windowsFormsHost.Child as FastColoredTextBox;
 
-            Lexer lexer = new Lexer(fastColoredTextBox.Text);
-            lexer.Analyze();
-            LexemListTextBlock.Text = lexer.Print();
-
             Parser parser = new Parser(fastColoredTextBox.Text);
             parser.Parse();
 
@@ -441,7 +437,7 @@ namespace HypeProgrammingCompiler
 
         private void Literature(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=21"));
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://gore-stepanyan.github.io/CourseWork/Work.pdf#page=33"));
         }
 
         private void Listing(object sender, RoutedEventArgs e)

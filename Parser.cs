@@ -123,7 +123,7 @@ namespace HypeProgrammingCompiler
         {
             if (lexem.Type == LexemType.ErrorToken)
             {
-                errorList.Add(new Error("Встречен недопустимый символ: \"" + lexem.Symbol + "\"", ErrorCode.InvalidCharacter, lexem.Symbol, lexem.StringNumber, lexem.StartPosition, lexem.EndPosition));
+                //errorList.Add(new Error("Встречен недопустимый символ: \"" + lexem.Symbol + "\"", ErrorCode.InvalidCharacter, lexem.Symbol, lexem.StringNumber, lexem.StartPosition, lexem.EndPosition));
                 return true;
             }
             return false;
